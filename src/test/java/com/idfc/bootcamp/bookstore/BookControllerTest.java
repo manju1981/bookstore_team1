@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -58,6 +59,18 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$[1].ratings").value(3.0));
 
         verify(bookRepository).findAll();
+    }
+
+    @Test
+    @DisplayName("should search in title, description or Author when search query is passed ")
+    void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() throws Exception {
+        Book b1 = new Book("book1", "author1", "description", 2.0);
+        Book b2 = new Book("book2", "author2","description", 3.0);
+        when(bookRepository.findByTitleOrAuthorOrDescription("author1","author1","author1")).thenReturn(Arrays.asList(b1));
+        mockMvc.perform(get("/books").param("search", "author1"))
+                .andExpect(jsonPath("$[0].title").value("book1"))
+                .andExpect(jsonPath("$.length()").value(1));
+        verify(bookRepository).findByTitleOrAuthorOrDescription("author1","author1","author1");
     }
 
 
