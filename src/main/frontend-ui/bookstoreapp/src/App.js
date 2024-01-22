@@ -1,11 +1,10 @@
 import './App.css';
-import TestComponent from './components/ComponentA/ComponentA';
+import BookListing from './screens/BookListing';
 
 function App() {
   return (
     <div className="App">
-      <h1>Books</h1>
-      <TestComponent/>
+      <BookListing/>
     </div>
   );
 }

@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react"
 import Button from '@mui/material/Button';
+import Header from '../../components/Header'
 
 
-const ComponentA = ()=>{
+const BookListing = ()=>{
     const [books, setBooks] = useState([])
 
-    useEffect(()=>{
-        fetch("http://127.0.0.1:8090/books")
-            .then(response=>response.json())
-            .then(response=>setBooks(response));
-    },[])
+    // useEffect(()=>{
+    //     fetch("http://127.0.0.1:8090/books")
+    //         .then(response=>response.json())
+    //         .then(response=>setBooks(response));
+    // },[])
 
     return (
         <>
+        <Header title="Team 1 Book Store" />
           {books.map(book=>(
             <p className="row" key={book.id}>
                 {`${book.title} ${book.author}`}
@@ -23,4 +25,4 @@ const ComponentA = ()=>{
     )
 }
 
-export default ComponentA
+export default BookListing
