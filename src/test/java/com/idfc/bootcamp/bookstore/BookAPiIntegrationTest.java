@@ -39,8 +39,8 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return list of books when endpoint is accessed")
     void shouldReturnListOfBooksWhenEndpointIsAccessed() {
-        Book book1 = new Book("Refactoring", "Author1");
-        Book book2 = new Book("TDD", "Author2");
+        Book book1 = new Book("Refactoring", "Author1","description", 2.0);
+        Book book2 = new Book("TDD", "Author2","description", 2.0);
 
         bookRepository.saveAll(Arrays.asList(book1, book2));
 

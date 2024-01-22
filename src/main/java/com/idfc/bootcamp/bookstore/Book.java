@@ -12,13 +12,19 @@ public class Book {
     private String title;
 
     private String author;
+    private  String description;
 
-    public Book(String title, String author) {
+    private double ratings;
+
+    public Book(String title, String author, String description, double ratings) {
         this.title = title;
         this.author = author;
+        this.description = description;
+        this.ratings = ratings;
     }
 
-    public Book() {}
+    public Book() {
+    }
 
     public Long getId() {
         return id;
@@ -31,4 +37,10 @@ public class Book {
     public String getAuthor() {
         return author;
     }
+    public String getDescription() {return description;}
+
+    public double getRatings(){
+        return ratings;
+    }
+
 }
