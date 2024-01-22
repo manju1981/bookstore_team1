@@ -1,14 +1,12 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import Avatar from '@mui/material/Avatar';
+import * as React from 'react'
+import { styled, alpha } from '@mui/material/styles'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import InputBase from '@mui/material/InputBase'
+import MenuIcon from '@mui/icons-material/Menu'
+import SearchIcon from '@mui/icons-material/Search'
 import logo from '../../assets/book.png'
 
 const Search = styled('div')(({ theme }) => ({
@@ -24,7 +22,7 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: theme.spacing(1),
     width: 'auto',
   },
-}));
+}))
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -34,7 +32,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-}));
+}))
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -51,25 +49,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       },
     },
   },
-}));
+}))
 
-export default function SearchAppBar( {title}) {
+export default function SearchAppBar({ title }) {
   return (
     <Box sx={{ flexGrow: 1 }} data-testid="header-bar">
       <AppBar position="static">
         <Toolbar>
-         <MenuIcon />
+          <MenuIcon />
           <Box
             component="img"
             sx={{
               height: 50,
               width: 50,
-              ml: 2
+              ml: 2,
             }}
             alt="The house from the offer."
             src={logo}
           />
-          
+
           <Typography
             variant="h6"
             noWrap
@@ -91,5 +89,5 @@ export default function SearchAppBar( {title}) {
         </Toolbar>
       </AppBar>
     </Box>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import './App.css';
-import BookListing from './screens/BookListing';
+import './App.css'
+import BookListing from './screens/BookListing'
 
 function App() {
   return (
     <div className="App">
-      <BookListing/>
+      <BookListing />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
