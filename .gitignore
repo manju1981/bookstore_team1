@@ -87,3 +87,4 @@ target/
 /bin
 /src/main/frontend-ui/bookstoreapp/npm/
 /src/main/frontend-ui/bookstoreapp/nodejs/
+/node_modules

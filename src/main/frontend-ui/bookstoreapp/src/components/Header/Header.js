@@ -64,7 +64,7 @@ export default function SearchAppBar( {title}) {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Avatar alt="BS" src="/src/assets/header-logo.png"/>
           </IconButton>
           <MenuIcon />
           <Typography
