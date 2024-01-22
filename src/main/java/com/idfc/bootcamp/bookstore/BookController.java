@@ -2,9 +2,9 @@ package com.idfc.bootcamp.bookstore;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -17,7 +17,7 @@ public class BookController {
 
     @CrossOrigin()
     @GetMapping("books")
-    public List<Book> listBooks(){
-        return bookService.fetchAllBooks();
+    public List<Book> listBooks(@RequestParam(required=false) String search){
+        return bookService.fetchBooks(search);
     }
 }
