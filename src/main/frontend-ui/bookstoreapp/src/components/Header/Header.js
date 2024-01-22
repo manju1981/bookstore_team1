@@ -9,6 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
+import logo from '../../assets/book.png'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,16 +58,18 @@ export default function SearchAppBar( {title}) {
     <Box sx={{ flexGrow: 1 }} data-testid="header-bar">
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <Avatar alt="BS" src="/src/assets/header-logo.png"/>
-          </IconButton>
-          <MenuIcon />
+         <MenuIcon />
+          <Box
+            component="img"
+            sx={{
+              height: 50,
+              width: 50,
+              ml: 2
+            }}
+            alt="The house from the offer."
+            src={logo}
+          />
+          
           <Typography
             variant="h6"
             noWrap
