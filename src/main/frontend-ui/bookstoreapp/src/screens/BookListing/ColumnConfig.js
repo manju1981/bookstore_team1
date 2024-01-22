@@ -8,11 +8,11 @@ const config = [
       width: 150,
     },
     {
-      field: 'rating',
-      headerName: 'Rating',
-      type: 'number',
-      width: 130,
-    },
+        field: 'rating',
+        headerName: 'Rating',
+        type: 'number',
+        width: 130,
+      },
   ];
 
   export default config;

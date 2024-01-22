@@ -27,7 +27,7 @@ const gridStyle = {
 
 function DataTable() {
   return (
-    <div style={gridStyle}>
+    <div style={gridStyle} data-testid="list-table">
       <DataGrid
         rows={rows}
         columns={config}
