@@ -53,7 +53,7 @@ task appNpmInstall(type: NpmTask){
 task appNpmBuild(type: NpmTask){
 	description = "Builds applciation for your frontend "
 	workingDir = file("${project.projectDir}/src/main/frontend-ui/bookstoreapp")
-	args =["run", "build"]
+	args =["run", "build --debug"]
 }
 
 /*task appNpmInstall(type: NpmTask){
