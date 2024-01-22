@@ -29,14 +29,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     - name: Set up node 18.12.1
-      uses: actions/setup-node@18.12.1
+      uses: actions/setup-node@v4
       with:
         node-version: '18.12.1'
         cache: 'npm'
-    - name: Set up node 9.2.0
-      uses: actions/setup-npm@9.2.0
-      with:
-        npm-version: '9.2.0'
     - name: compile with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
