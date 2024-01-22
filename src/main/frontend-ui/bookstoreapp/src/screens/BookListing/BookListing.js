@@ -8,15 +8,15 @@ import config from "./ColumnConfig";
 
 
 const rows = [
-  { id: 1, authorName: 'Snow',       bookName: 'Jon',        price: 35,  rating: 4},
+  { id: 1, authorName: 'Snow',       bookName: 'Jon',        price: 35,  rating: 1},
   { id: 2, authorName: 'Lannister',  bookName: 'Cersei',     price: 42,  rating: 4},
-  { id: 3, authorName: 'Lannister',  bookName: 'Jaime',      price: 45,  rating: 4},
-  { id: 4, authorName: 'Stark',      bookName: 'Arya',       price: 16,  rating: 4},
-  { id: 5, authorName: 'Targaryen',  bookName: 'Daenerys',   price: 10,  rating: 4 },
-  { id: 6, authorName: 'Melisandre', bookName: 'Bhagyashri', price: 150, rating: 4 },
-  { id: 7, authorName: 'Clifford',   bookName: 'Ferrara',    price: 44,  rating: 4 },
-  { id: 8, authorName: 'Frances',    bookName: 'Rossini',    price: 36,  rating: 4 },
-  { id: 9, authorName: 'Roxie',      bookName: 'Harvey',     price: 65,  rating: 4 },
+  { id: 3, authorName: 'Lannister',  bookName: 'Jaime',      price: 45,  rating: 2},
+  { id: 4, authorName: 'Stark',      bookName: 'Arya',       price: 16,  rating: 3},
+  { id: 5, authorName: 'Targaryen',  bookName: 'Daenerys',   price: 10,  rating: 4},
+  { id: 6, authorName: 'Melisandre', bookName: 'Bhagyashri', price: 150, rating: 1},
+  { id: 7, authorName: 'Clifford',   bookName: 'Ferrara',    price: 44,  rating: 4},
+  { id: 8, authorName: 'Frances',    bookName: 'Rossini',    price: 36,  rating: 4},
+  { id: 9, authorName: 'Roxie',      bookName: 'Harvey',     price: 65,  rating: 5},
 ];
 
 const gridStyle = {
@@ -36,7 +36,7 @@ function DataTable() {
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
-        sx={{ gap: 2 }}
+        sx={{px: 2}}
         pageSizeOptions={[5, 10]}
         // checkboxSelection
       />
