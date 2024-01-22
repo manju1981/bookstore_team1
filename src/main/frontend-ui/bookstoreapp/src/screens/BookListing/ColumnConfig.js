@@ -1,6 +1,6 @@
 const config = [
-    { field: 'bookName', headerName: 'Book', width: 130 },
-    { field: 'authorName', headerName: 'Author', width: 130 },
+    { field: 'bookName', headerName: 'Book', width: 300, sortable: false, },
+    { field: 'authorName', headerName: 'Author', width: 100, sortable: false, },
     {
       field: 'price',
       headerName: 'Price',
@@ -10,6 +10,7 @@ const config = [
     {
       field: 'rating',
       headerName: 'Rating',
+      type: 'number',
       width: 130,
     },
   ];
