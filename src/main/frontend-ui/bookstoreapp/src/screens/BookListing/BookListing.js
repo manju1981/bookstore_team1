@@ -19,11 +19,15 @@ const rows = [
   { id: 9, authorName: 'Roxie',      bookName: 'Harvey',     price: 65,  rating: 4 },
 ];
 
+const gridStyle = {
+  height: 'calc(100vh - 60px)',
+  width: "100%",
+};
 
 
 function DataTable() {
   return (
-    <div style={{ height: 600, width: '100%' }}>
+    <div style={gridStyle}>
       <DataGrid
         rows={rows}
         columns={config}
