@@ -67,8 +67,8 @@ task copyToFrontend(type: Copy){
 	into "${project.projectDir}/build/resources/main/static"
 }
 
-/*appNpmBuild.dependsOn appNpmInstall
+/*appNpmBuild.dependsOn appNpmInstall*/
 copyToFrontend.dependsOn appNpmBuild
-compileJava.dependsOn copyToFrontend*/
+compileJava.dependsOn copyToFrontend
 
-compileJava
+/*compileJava*/
