@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,8 +25,8 @@ public class BookControllerTest {
     @MockBean
     BookRepository bookRepository;
 
-    Book b1 = new Book("book1", "author1");
-    Book b2 = new Book("book2", "author2");
+    Book b1 = new Book("book1", "author1", "description", 2.0);
+    Book b2 = new Book("book2", "author2","description", 3.0);
 
     @Test
     @org.junit.jupiter.api.DisplayName("should return success http status")
@@ -50,8 +51,14 @@ public class BookControllerTest {
 
         mockMvc.perform(get("/books"))
                 .andExpect(jsonPath("$[0].title").value("book1"))
-                .andExpect(jsonPath("$[1].title").value("book2"));
+                .andExpect(jsonPath("$[1].title").value("book2"))
+                .andExpect(jsonPath("$[0].description").value("description"))
+                .andExpect(jsonPath("$[0].ratings").value(2.0))
+                .andExpect(jsonPath("$[1].description").value("description"))
+                .andExpect(jsonPath("$[1].ratings").value(3.0));
 
         verify(bookRepository).findAll();
     }
+
+
 }
