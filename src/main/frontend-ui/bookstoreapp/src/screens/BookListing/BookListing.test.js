@@ -1,6 +1,5 @@
-import { render, screen, waitFor, fireEvent, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import BookListing from './BookListing'
-<<<<<<< HEAD
 import DataTable from './DataTable'
 
 const books = [
@@ -14,8 +13,6 @@ const books = [
   { id: 8, author: 'Frances', title: 'Rossini', price: 36, ratings: 4 },
   { id: 9, author: 'Roxie', title: 'Harvey', price: 65, ratings: 4 },
 ]
-=======
->>>>>>> 7f63cc3 (Book Listing renders upon Search Value)
 
 test('renders header', () => {
   render(<BookListing />)
