@@ -66,6 +66,6 @@ task copyFrontendFiles(type: Copy, dependsOn: buildFrontend){
 	into "${project.projectDir}/build/resources/main/static"
 }
 
-build.dependsOn copyFrontendFiles
+bootJar.mustRunAfter copyFrontendFiles
 
 /*compileJava*/
