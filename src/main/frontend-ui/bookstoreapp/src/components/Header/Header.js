@@ -53,6 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 export default function SearchAppBar({ title, onSearch }) {
+  // eslint-disable-next-line no-unused-vars
   const [searchValue, setSearchValue] = useState('')
 
   const debouncedSearch = debounce((value) => {
