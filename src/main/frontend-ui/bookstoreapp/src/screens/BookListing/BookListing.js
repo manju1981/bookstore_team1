@@ -21,7 +21,7 @@ function DataTable({ books }) {
         }}
         sx={{ gap: 2 }}
         pageSizeOptions={[5, 10]}
-        // checkboxSelection
+      // checkboxSelection
       />
     </div>
   )

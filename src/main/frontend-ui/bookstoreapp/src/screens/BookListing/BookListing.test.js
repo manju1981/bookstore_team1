@@ -14,7 +14,6 @@ const books = [
   { id: 9, author: 'Roxie', title: 'Harvey', price: 65, ratings: 4 },
 ]
 
-
 test('renders header', () => {
   render(<BookListing />)
   const header = screen.getByTestId('header-bar')
