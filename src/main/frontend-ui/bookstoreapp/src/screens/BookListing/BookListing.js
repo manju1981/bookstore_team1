@@ -9,8 +9,8 @@ const gridStyle = {
 }
 
 function DataTable({ books }) {
-  const [setPage] = useState([])
-  const [setPageSize] = useState()
+  const [, setPage] = useState([])
+  const [, setPageSize] = useState()
 
   return (
     <div style={gridStyle} data-testid="list-table">
