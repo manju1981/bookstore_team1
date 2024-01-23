@@ -1,9 +1,5 @@
 import { render, screen, waitFor, fireEvent, within } from '@testing-library/react'
 import BookListing from './BookListing'
-import { tab } from '@testing-library/user-event/dist/tab'
-
-
-
 
 test('renders header', () => {
   render(<BookListing />)
