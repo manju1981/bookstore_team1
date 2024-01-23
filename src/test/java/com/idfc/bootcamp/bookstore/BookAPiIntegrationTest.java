@@ -102,14 +102,14 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return paginated list of books based on offset and limit")
     void shouldReturnPaginatedListOfBooksBasedOnOffsetAndTake() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0);
-        Book book2 = new Book("TDD", "testing","description", 2.0);
-        Book book3 = new Book("test", "Author3","description", 2.0);
-        Book book4 = new Book("BOOK4", "Author4","description", 2.0);
-        Book book5 = new Book("Refactoring", "Author1","test", 2.0);
-        Book book6 = new Book("TDD", "testing","descriptionas", 2.0);
-        Book book7 = new Book("test", "Author3","descriptionas", 2.0);
-        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
+        Book book2 = new Book("TDD", "testing","description", 2.0, 100);
+        Book book3 = new Book("test", "Author3","description", 2.0, 100);
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100);
+        Book book5 = new Book("Refactoring", "Author1","test", 2.0, 100);
+        Book book6 = new Book("TDD", "testing","descriptionas", 2.0, 100);
+        Book book7 = new Book("test", "Author3","descriptionas", 2.0, 100);
+        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0, 100);
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4,book5, book6, book7, book8));
 
@@ -136,14 +136,14 @@ public class BookAPiIntegrationTest {
     @org.junit.jupiter.api.Test
     @org.junit.jupiter.api.DisplayName("should return paged output with search")
     void shouldReturnPagedOutputWithSearch() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0);
-        Book book2 = new Book("TDD", "asda","description", 2.0);
-        Book book3 = new Book("test", "Author3","description", 2.0);
-        Book book4 = new Book("BOOK4", "Author4","description", 2.0);
-        Book book5 = new Book("Refactoring", "Author1","test", 2.0);
-        Book book6 = new Book("TDD", "testing","descriptionas", 2.0);
-        Book book7 = new Book("test", "Author3","descriptionas", 2.0);
-        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100);
+        Book book3 = new Book("test", "Author3","description", 2.0, 100);
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100);
+        Book book5 = new Book("Refactoring", "Author1","test", 2.0, 100);
+        Book book6 = new Book("TDD", "testing","descriptionas", 2.0, 100);
+        Book book7 = new Book("test", "Author3","descriptionas", 2.0, 100);
+        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0, 100);
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4,book5, book6, book7, book8));
 
