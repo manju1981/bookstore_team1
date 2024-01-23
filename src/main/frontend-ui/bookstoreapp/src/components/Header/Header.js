@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -56,9 +56,13 @@ export default function SearchAppBar({ title, onSearch }) {
   // eslint-disable-next-line no-unused-vars
   const [searchValue, setSearchValue] = useState('')
 
-  const debouncedSearch = debounce((value) => {
-    onSearch(value)
-  }, 500)
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value) => {
+        onSearch(value)
+      }, 500),
+    [onSearch]
+  )
 
   const handleSearchChange = (event) => {
     const { value } = event.target
