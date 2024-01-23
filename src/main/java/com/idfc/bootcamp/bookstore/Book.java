@@ -15,12 +15,14 @@ public class Book {
     private  String description;
 
     private double ratings;
+    private int price;
 
-    public Book(String title, String author, String description, double ratings) {
+    public Book(String title, String author, String description, double ratings, int price) {
         this.title = title;
         this.author = author;
         this.description = description;
         this.ratings = ratings;
+        this.price = price;
     }
 
     public Book() {
@@ -41,6 +43,9 @@ public class Book {
 
     public double getRatings(){
         return ratings;
+    }
+    public int getPrice() {
+        return price;
     }
 
 }

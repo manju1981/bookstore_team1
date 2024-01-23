@@ -6,7 +6,7 @@ create table orders
     total_amount int not null,
     created_at TIMESTAMP DEFAULT now(),
     primary key (id),
-    CONSTRAINT fk_books
+    CONSTRAINT fk_books_orders
         FOREIGN KEY(book_id)
             REFERENCES books(id)
 )
