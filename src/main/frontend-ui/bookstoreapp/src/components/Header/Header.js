@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import { styled, alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -8,6 +8,7 @@ import InputBase from '@mui/material/InputBase'
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import logo from '../../assets/book.png'
+import { debounce } from 'lodash'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -51,7 +52,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export default function SearchAppBar({ title }) {
+export default function SearchAppBar({ title, onSearch }) {
+  // eslint-disable-next-line no-unused-vars
+  const [searchValue, setSearchValue] = useState('')
+
+  const debouncedSearch = debounce((value) => {
+    onSearch(value)
+  }, 500)
+
+  const handleSearchChange = (event) => {
+    const { value } = event.target
+    setSearchValue(value)
+    debouncedSearch(value)
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }} data-testid="header-bar">
       <AppBar position="static">
@@ -84,6 +98,7 @@ export default function SearchAppBar({ title }) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearchChange}
             />
           </Search>
         </Toolbar>
