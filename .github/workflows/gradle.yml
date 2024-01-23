@@ -36,11 +36,7 @@ jobs:
     - name: compile with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
-        arguments: compileJava
-    - name: test
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: compileTestJava    
+        arguments: build
     - name: package
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
@@ -50,29 +46,3 @@ jobs:
       with: 
         name: bookstore.jar
         path: build/libs/bookstore-0.0.1-SNAPSHOT.jar
-    # - name: get semantic tag version and release notes from commit messages
-    #   id: tag 
-    #   run: |
-    #     curtag=${GITHUB_REF_NAME}
-    #     major_minor=$(echo "$curtag" | cut -d'.' -f1-2)
-    #     patch=$(echo "$curtag" | cut -d'.' -f3)
-    #     # avoid empty patch number
-    #     [ -n "$patch" ] && ((patch--)) || patch=".x"
-    #     prevtag="${major_minor}.${patch}"
-    #     echo "" > body.log
-    #     if git tag | grep $prevtag ; then
-    #       git log -q ${curtag}...${prevtag} --pretty="- %s" -q --no-color >> body.log
-    #     else
-    #       git log --pretty="- %s" -q --no-color >> body.log
-    #     fi
-    #     line_count=$(cat body.log | wc -l)
-    #     echo "curtag=$curtag" >> $GITHUB_OUTPUT
-    #     echo "prevtag=$prevtag" >> $GITHUB_OUTPUT
-    #     echo "line_count=$line_count" >> $GITHUB_OUTPUT     
-    # - uses: ncipollo/release-action@v1
-    #   with:
-    #     name: ${GITHUB_REF_NAME}
-    #     tag: ${GITHUB_REF_NAME}
-    #     artifacts: "build/libs/bookstore*.jar"
-    #     bodyFile: "body.log"
-    #     token: ${{ secrets.GITHUB_TOKEN }}
