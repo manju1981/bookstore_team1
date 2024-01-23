@@ -84,8 +84,8 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return paginated list of books based on page number and page size")
     void shouldReturnPaginatedListOfBooksBasedOnOffsetAndTake() throws Exception {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0);
-        Book book2 = new Book("TDD", "testing","description", 2.0);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
+        Book book2 = new Book("TDD", "testing","description", 2.0, 100);
 
         when(bookRepository.findBy(
                 any(Pageable.class))).thenReturn(Arrays.asList(book1,book2));
@@ -101,11 +101,15 @@ public class BookControllerTest {
     void shouldReturnPriceForTheFirstBook() throws Exception {
         Book b1 = new Book("book1", "author1", "description", 2.0, 100);
         Book b2 = new Book("book2", "author2","description", 3.0, 100);
-        when(bookRepository.findByTitleOrAuthorOrDescription("author1","author1","author1")).thenReturn(Arrays.asList(b1, b2));
+        when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
+                anyString(),
+                anyString(), any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
         mockMvc.perform(get("/books").param("search", "author1"))
                 .andExpect(jsonPath("$[0].price").value(100))
                 .andExpect(jsonPath("$.length()").value(2));
-        verify(bookRepository).findByTitleOrAuthorOrDescription("author1","author1","author1");
+        verify(bookRepository).findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
+                anyString(),
+                anyString(), any(Pageable.class));
     }
 
 
