@@ -39,17 +39,17 @@ public class BookControllerTest {
     @org.junit.jupiter.api.Test
     @DisplayName("should return two books")
     void shouldReturnTwoBooks() throws Exception {
-        when(bookRepository.findAll()).thenReturn(Arrays.asList(b1, b2));
+        when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
 
         mockMvc.perform(get("/books"))
                 .andExpect(jsonPath("$.length()").value(2));
-        verify(bookRepository).findAll();
+        verify(bookRepository).findBy(any(Pageable.class));
     }
 
     @Test
     @DisplayName("should assert title")
     void shouldAssertTitle() throws Exception {
-        when(bookRepository.findAll()).thenReturn(Arrays.asList(b1, b2));
+        when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
 
         mockMvc.perform(get("/books"))
                 .andExpect(jsonPath("$[0].title").value("book1"))
@@ -59,7 +59,7 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$[1].description").value("description"))
                 .andExpect(jsonPath("$[1].ratings").value(3.0));
 
-        verify(bookRepository).findAll();
+        verify(bookRepository).findBy(any(Pageable.class));
     }
 
     @Test
