@@ -1,12 +1,12 @@
 package com.idfc.bootcamp.bookstore;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class BookController {
@@ -19,15 +19,15 @@ public class BookController {
     @CrossOrigin()
     @GetMapping("books")
     public List<Book> listBooks(@RequestParam(required=false) String search,
-                                @RequestParam int offset,
-                                @RequestParam(required=false) int limit
+                                @RequestParam(required=false) Integer pageNumber,
+                                @RequestParam(required=false) Integer pageSize
                                 ){
-        boolean b = limit <= 0;
-        if (b) {
-            offset = 0;
-            limit =20;
+
+        if (Objects.isNull(pageNumber) || Objects.isNull(pageSize)) {
+            pageNumber = 0;
+            pageSize =20;
         }
 
-        return bookService.fetchBooks(search,offset,limit);
+        return bookService.fetchBooks(search, pageNumber,pageSize);
     }
 }

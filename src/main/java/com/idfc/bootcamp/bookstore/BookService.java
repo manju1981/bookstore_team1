@@ -2,10 +2,8 @@ package com.idfc.bootcamp.bookstore;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,29 +16,23 @@ public class BookService {
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
-    public List<Book> fetchBooks(String search, int offset, int limit) {
-        if (limit <= 0) {
-            limit = 20;
-        }
-        Pageable pageable =  PageRequest.of(offset, limit);
-        Page<Book>  page= null;
+    public List<Book> fetchBooks(String search, int pageNumber, int pageSize) {
+
+        List<Book> list;
+        Pageable pageable =  PageRequest.of(pageNumber, pageSize);
         if(!Strings.isBlank(search)) {
             String searchString = '%' + search +'%';
 
-           page =   bookRepository
+          list =   bookRepository
                     .findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                             searchString,
                             searchString,
                             searchString,
                             pageable);
         } else {
-            page = bookRepository.findAll(pageable);
+     list =   bookRepository.findBy(pageable);
         }
-        System.out.println(page.getContent());
-        if (Objects.nonNull(page)){
-            return  page.getContent();
-        }
-        return List.of();
-
+        return  list;
     }
+
 }
