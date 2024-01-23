@@ -4,7 +4,7 @@ create table cart
     book_id INT not null,
     quantity int not null default 1,
     primary key (id),
-    CONSTRAINT fk_books
+    CONSTRAINT fk_books_cart
         FOREIGN KEY(book_id)
             REFERENCES books(id)
 )
