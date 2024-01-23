@@ -28,13 +28,11 @@ function DataTable({ books }) {
 }
 
 const BookListing = () => {
-  const [books, setBooks] = useState([])
   const [filteredBooks, setFilteredBooks] = useState([])
   useEffect(() => {
     fetch('http://localhost:8090/books')
       .then((response) => response.json())
       .then((response) => {
-        setBooks(response)
         setFilteredBooks(response)
       })
   }, [])
@@ -43,13 +41,13 @@ const BookListing = () => {
     fetch(`http://localhost:8090/books?search=${searchValue}`)
       .then((response) => response.json())
       .then((response) => {
-        const filteredData = response.filter(
-      (item) =>
-        item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.author.toLowerCase().includes(searchValue.toLowerCase())
-    )
-      setFilteredBooks(response)
-    })
+        const filteredBooks = response.filter(
+          (item) =>
+            item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.author.toLowerCase().includes(searchValue.toLowerCase())
+        )
+        setFilteredBooks(filteredBooks)
+      })
   }
 
   return (
