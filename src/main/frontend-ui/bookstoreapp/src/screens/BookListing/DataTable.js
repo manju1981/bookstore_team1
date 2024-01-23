@@ -1,4 +1,3 @@
-
 import { DataGrid } from '@mui/x-data-grid'
 import config from './ColumnConfig'
 
