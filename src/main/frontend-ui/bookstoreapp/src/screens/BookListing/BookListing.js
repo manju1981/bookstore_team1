@@ -40,12 +40,16 @@ const BookListing = () => {
   }, [])
 
   const handleSearch = (searchValue) => {
-    const filteredData = books.filter(
+    fetch(`http://localhost:8090/books?search=${searchValue}`)
+      .then((response) => response.json())
+      .then((response) => {
+        const filteredData = response.filter(
       (item) =>
         item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
         item.author.toLowerCase().includes(searchValue.toLowerCase())
     )
-    setFilteredBooks(filteredData)
+      setFilteredBooks(response)
+    })
   }
 
   return (
