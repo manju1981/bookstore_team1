@@ -27,8 +27,8 @@ public class BookControllerTest {
     @MockBean
     BookRepository bookRepository;
 
-    Book b1 = new Book("book1", "author1", "description", 2.0);
-    Book b2 = new Book("book2", "author2","description", 3.0);
+    Book b1 = new Book("book1", "author1", "description", 2.0, 100);
+    Book b2 = new Book("book2", "author2","description", 3.0, 100);
 
     @Test
     @org.junit.jupiter.api.DisplayName("should return success http status")
@@ -65,7 +65,9 @@ public class BookControllerTest {
     @Test
     @DisplayName("should search in title, description or Author when search query is passed ")
     void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() throws Exception {
-        Book b1 = new Book("book1", "author1", "description", 2.0);
+
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100);
+        Book b2 = new Book("book2", "author2","description", 3.0, 100);
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                 anyString(),
                 anyString(),
@@ -93,6 +95,17 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$.length()").value(2));
         verify(bookRepository).findBy(
                 any(Pageable.class));
+    }
+    @Test
+    @DisplayName("should return price for the first book")
+    void shouldReturnPriceForTheFirstBook() throws Exception {
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100);
+        Book b2 = new Book("book2", "author2","description", 3.0, 100);
+        when(bookRepository.findByTitleOrAuthorOrDescription("author1","author1","author1")).thenReturn(Arrays.asList(b1, b2));
+        mockMvc.perform(get("/books").param("search", "author1"))
+                .andExpect(jsonPath("$[0].price").value(100))
+                .andExpect(jsonPath("$.length()").value(2));
+        verify(bookRepository).findByTitleOrAuthorOrDescription("author1","author1","author1");
     }
 
 
