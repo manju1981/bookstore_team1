@@ -1,38 +1,6 @@
 import Header from '../../components/Header'
-import { DataGrid } from '@mui/x-data-grid'
-import config from './ColumnConfig'
+import DataTable from './DataTable'
 import { useState, useEffect } from 'react'
-
-const gridStyle = {
-  height: 'calc(100vh - 60px)',
-  width: '100%',
-}
-
-function DataTable({ books }) {
-  const [, setPage] = useState([])
-  const [, setPageSize] = useState()
-
-  return (
-    <div style={gridStyle} data-testid="list-table">
-      <DataGrid
-        rows={books}
-        columns={config}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        sx={{ gap: 2 }}
-        pageSizeOptions={[5, 10]}
-        // checkboxSelection
-        onPaginationModelChange={(paginationData) => {
-          setPage(paginationData.page)
-          setPageSize(paginationData.pageSize)
-        }}
-      />
-    </div>
-  )
-}
 
 const BookListing = () => {
   const [filteredBooks, setFilteredBooks] = useState([])

@@ -5,12 +5,9 @@ const gridStyle = {
   height: 'calc(100vh - 60px)',
   width: '100%',
 }
-
-
-const  DataTable =({ books }) => {
-
+const DataTable = ({ books }) => {
   const navigateToBookDetails = () => {
-    console.log("Row clicked--->");
+    console.log('Row clicked--->')
   }
 
   return (
@@ -31,6 +28,5 @@ const  DataTable =({ books }) => {
     </div>
   )
 }
-
 
 export default DataTable
