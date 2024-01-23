@@ -39,15 +39,8 @@ tasks.named('test') {
 }
 
 node {
-	//download = false
-	//version="18.12.1"
-	//npmVersion="9.2.0"
-	// identify working directory in project
 	workDir = file("${project.projectDir}/src/main/frontend-ui/bookstoreapp/nodejs")
-	// NPM work directory
 	npmWorkDir = file("${project.projectDir}/src/main/frontend-ui/bookstoreapp/npm")
-	// node modules directory
-	//nodeModulesDir = file("${project.projectDir}/src/main/frontend-ui/bookstoreapp/node_modules")
 }
 
 task installFEDependencies(type: YarnTask){
