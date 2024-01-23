@@ -5,7 +5,7 @@ create table inventory
     price INT,
     stock int not null default 0,
     primary key (id),
-    CONSTRAINT fk_books
+    CONSTRAINT fk_inventory_books
         FOREIGN KEY(book_id)
             REFERENCES books(id)
 )
