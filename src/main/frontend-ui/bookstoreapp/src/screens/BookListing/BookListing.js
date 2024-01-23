@@ -9,6 +9,9 @@ const gridStyle = {
 }
 
 function DataTable({ books }) {
+  const [setPage] = useState([])
+  const [setPageSize] = useState()
+
   return (
     <div style={gridStyle} data-testid="list-table">
       <DataGrid
@@ -22,6 +25,10 @@ function DataTable({ books }) {
         sx={{ gap: 2 }}
         pageSizeOptions={[5, 10]}
         // checkboxSelection
+        onPaginationModelChange={(paginationData) => {
+          setPage(paginationData.page)
+          setPageSize(paginationData.pageSize)
+        }}
       />
     </div>
   )
