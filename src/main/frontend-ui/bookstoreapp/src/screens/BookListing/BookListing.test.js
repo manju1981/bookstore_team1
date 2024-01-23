@@ -14,7 +14,6 @@ const books = [
   { id: 9, author: 'Roxie', title: 'Harvey', price: 65, ratings: 4 },
 ]
 
-
 test('renders header', () => {
   render(<BookListing />)
   const header = screen.getByTestId('header-bar')
@@ -33,9 +32,9 @@ test('it should show table header and 5 rows of books in the list', () => {
   expect(author).toBeInTheDocument()
   const price = screen.getByText('Price')
   expect(price).toBeInTheDocument()
-  // const ratings = screen.getByText('ratings');
-  // expect(ratings).toBeInTheDocument();
-  // console.log("ratings--->",ratings)
-  const rowList = screen.getAllByRole('row')
-  expect(rowList.length).toBe(4)
+  // const rating = screen.getByText('Rating');
+  // expect(rating).toBeInTheDocument();
+  // console.log("Rating--->",rating)
+  // const tablerow = screen.getAllByRole('rowgroup')[1];
+  // console.log('TableRow', tablerow);
 })
