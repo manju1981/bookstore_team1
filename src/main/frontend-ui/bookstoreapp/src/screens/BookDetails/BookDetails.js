@@ -25,6 +25,19 @@ const BookDetails = () => {
     margin: 'auto',
   })
 
+  useEffect(() => {
+    const fetcher = () => {
+      fetch(`http://localhost:8090/book/${id}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setBookDetails(data)
+        })
+    }
+    fetcher()
+  }, [id])
+
+  if (!bookDetails) return null
+
   const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     return (
       <BaseNumberInput
@@ -48,17 +61,6 @@ const BookDetails = () => {
       />
     )
   })
-
-  useEffect(() => {
-    const fetcher = () => {
-      fetch(`http://localhost:8090/book/${id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setBookDetails(data)
-        })
-    }
-    fetcher()
-  }, [id])
 
   if (!bookDetails) return null
 
