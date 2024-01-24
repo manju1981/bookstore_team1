@@ -30,6 +30,9 @@ public class BookControllerTest {
     @MockBean
     BookDetailsRepository bookDetailsRepository;
 
+    @MockBean
+    CountryRepository countryRepository;
+
     Book b1 = new Book("book1", "author1", "description", 2.0, 100);
     Book b2 = new Book("book2", "author2","description", 3.0, 100);
 
