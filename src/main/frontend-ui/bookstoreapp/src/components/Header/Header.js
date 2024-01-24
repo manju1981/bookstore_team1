@@ -28,9 +28,6 @@ export default function SearchAppBar({ title, onSearch, showSearchBar = false })
   }
 
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const isBookDetailsPage = location.pathname.includes(`/book/${''}`)
 
   const navigateToCart = (params) => {
     navigate(`/cart`)
