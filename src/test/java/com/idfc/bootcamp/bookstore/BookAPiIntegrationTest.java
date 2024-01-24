@@ -40,8 +40,8 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return list of books when endpoint is accessed")
     void shouldReturnListOfBooksWhenEndpointIsAccessed() {
-        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 500);
-        Book book2 = new Book("TDD", "Author2","description", 2.0, 600);
+        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 500, "image_url");
+        Book book2 = new Book("TDD", "Author2","description", 2.0, 600, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2));
 
@@ -57,8 +57,8 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should search in title, description or author when search query is passed")
     void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() {
-        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 100);
-        Book book2 = new Book("TDD", "Author2","description", 2.0, 200);
+        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "Author2","description", 2.0, 200, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2));
 
@@ -74,10 +74,10 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return three books based on search query")
     void shouldReturnThreeBooksBasedOnSearchQuery() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "test","description", 2.0, 100);
-        Book book3 = new Book("test", "Author3","description", 2.0, 200);
-        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 300);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "test","description", 2.0, 100, "image_url");
+        Book book3 = new Book("test", "Author3","description", 2.0, 200, "image_url");
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 300, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
 
@@ -93,8 +93,8 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return empty list when no books match search param")
     void shouldReturnEmptyListWhenNoBooksMatchSearchParam() {
-        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 300);
-        Book book2 = new Book("TDD", "Author2","description", 2.0, 400);
+        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 300, "image_url");
+        Book book2 = new Book("TDD", "Author2","description", 2.0, 400, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2));
 
@@ -110,14 +110,14 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return paginated list of books based on offset and limit")
     void shouldReturnPaginatedListOfBooksBasedOnOffsetAndTake() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "testing","description", 2.0, 100);
-        Book book3 = new Book("test", "Author3","description", 2.0, 100);
-        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100);
-        Book book5 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book6 = new Book("TDD", "testing","descriptionas", 2.0, 100);
-        Book book7 = new Book("test", "Author3","descriptionas", 2.0, 100);
-        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "testing","description", 2.0, 100, "image_url");
+        Book book3 = new Book("test", "Author3","description", 2.0, 100, "image_url");
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100, "image_url");
+        Book book5 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book6 = new Book("TDD", "testing","descriptionas", 2.0, 100, "image_url");
+        Book book7 = new Book("test", "Author3","descriptionas", 2.0, 100, "image_url");
+        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0, 100, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4,book5, book6, book7, book8));
 
@@ -148,14 +148,14 @@ public class BookAPiIntegrationTest {
     @org.junit.jupiter.api.Test
     @org.junit.jupiter.api.DisplayName("should return paged output with search")
     void shouldReturnPagedOutputWithSearch() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "asda","description", 2.0, 100);
-        Book book3 = new Book("test", "Author3","description", 2.0, 100);
-        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100);
-        Book book5 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book6 = new Book("TDD", "testing","descriptionas", 2.0, 100);
-        Book book7 = new Book("test", "Author3","descriptionas", 2.0, 100);
-        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "image_url");
+        Book book3 = new Book("test", "Author3","description", 2.0, 100, "image_url");
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100, "image_url");
+        Book book5 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book6 = new Book("TDD", "testing","descriptionas", 2.0, 100, "image_url");
+        Book book7 = new Book("test", "Author3","descriptionas", 2.0, 100, "image_url");
+        Book book8 = new Book("BOOK4", "Author4","descriptionas", 2.0, 100, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4,book5, book6, book7, book8));
 
