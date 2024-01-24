@@ -10,7 +10,7 @@
     "@mui/material": "^5.15.5",
     "@mui/styled-engine-sc": "^6.0.0-alpha.12",
     "@mui/x-data-grid": "^6.19.1",
-    "@testing-library/jest-dom": "^5.17.0",
+        "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "build": "^0.1.4",
@@ -63,11 +63,11 @@
     "prettier": "^3.2.4"
   },
   "jest": {
-    "coveragePathIgnorePatterns" : [
+    "coveragePathIgnorePatterns": [
       "src/index.js",
       "src/App.js",
       "src/reportWebVitals.js",
       "index.js"
     ]
-}
+  }
 }
