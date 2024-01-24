@@ -65,8 +65,8 @@ task testFrontend(type: YarnTask, dependsOn: installFEDependencies){
 }
 
 task copyFrontendFiles(type: Copy, dependsOn: [buildFrontend, resolveMainClassName]){
-	from "${project.projectDir}/src/main/frontend-ui/bookstoreapp/build"
-	into "${project.projectDir}/build/resources/main"
+	from "${project.projectDir}/src/main/frontend-ui/bookstoreapp/build/"
+	into "${project.projectDir}/build/resources/main/static"
 }
 
 jacocoTestCoverageVerification {
