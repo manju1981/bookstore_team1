@@ -69,7 +69,7 @@ task copyFrontendFiles(type: Copy, dependsOn: [buildFrontend, resolveMainClassNa
 }
 
 jacocoTestCoverageVerification {
-	violationRules {
+		violationRules {
 		rule {
 			limit {
 				counter = 'LINE'
@@ -77,12 +77,12 @@ jacocoTestCoverageVerification {
 			}
 			limit {
 				counter = 'BRANCH'
-				minimum = 0.80
+				minimum = 0.8
 			}
 		}
 	}
 }
-
+jacocoTestCoverageVerification.dependsOn jacocoTestReport
 
 bootJar.dependsOn copyFrontendFiles
 
