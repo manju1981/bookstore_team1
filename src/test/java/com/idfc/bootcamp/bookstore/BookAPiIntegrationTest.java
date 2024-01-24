@@ -172,10 +172,10 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return totalNumberOfRecords along with paginated list of books")
     void shouldReturnTotalNumberOfRecordsAlongWithPaginatedListOfBooks() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "asda","description", 2.0, 100);
-        Book book3 = new Book("test", "Author3","description", 2.0, 100);
-        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "image_url");
+        Book book3 = new Book("test", "Author3","description", 2.0, 100, "image_url");
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
         BookListResponse actualBooksResponse = restTemplate.exchange(baseUrl+"/books?pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
@@ -222,10 +222,10 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return sorted list of books in descending order of Price field")
     void shouldReturnSortedListOfBooksInDescendingOrderOfPriceField() {
-        Book book1 = new Book("book1", "author1", "description", 2.0, 80);
-        Book book2 = new Book("book2", "author2","description", 3.0, 350);
-        Book book3 = new Book("book3", "author3", "description", 2.0, 590);
-        Book book4 = new Book("book4", "author4","description", 3.0, 600);
+        Book book1 = new Book("book1", "author1", "description", 2.0, 80, "image_url");
+        Book book2 = new Book("book2", "author2","description", 3.0, 350, "image_url");
+        Book book3 = new Book("book3", "author3", "description", 2.0, 590, "image_url");
+        Book book4 = new Book("book4", "author4","description", 3.0, 600, "image_url");
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
 
