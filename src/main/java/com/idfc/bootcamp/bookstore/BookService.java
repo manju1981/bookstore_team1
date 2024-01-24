@@ -16,23 +16,32 @@ public class BookService {
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
-    public List<Book> fetchBooks(String search, int pageNumber, int pageSize) {
+    public BookListResponse fetchBooks(String search, int pageNumber, int pageSize) {
 
         List<Book> list;
+        long totalNumberOfBooks;
         Pageable pageable =  PageRequest.of(pageNumber, pageSize);
         if(!Strings.isBlank(search)) {
             String searchString = '%' + search +'%';
-
-          list =   bookRepository
+            list =   bookRepository
                     .findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                             searchString,
                             searchString,
                             searchString,
                             pageable);
+            totalNumberOfBooks = bookRepository.countByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
+                    searchString,
+                    searchString,
+                    searchString
+            );
+
         } else {
-     list =   bookRepository.findBy(pageable);
+            list = bookRepository.findBy(pageable);
+            totalNumberOfBooks = bookRepository.count();
+
         }
-        return  list;
+
+        return new BookListResponse(list,totalNumberOfBooks);
     }
 
 }

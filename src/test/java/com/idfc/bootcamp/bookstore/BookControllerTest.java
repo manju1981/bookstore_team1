@@ -42,7 +42,7 @@ public class BookControllerTest {
         when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
 
         mockMvc.perform(get("/books"))
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.books.length()").value(2));
         verify(bookRepository).findBy(any(Pageable.class));
     }
 
@@ -52,12 +52,12 @@ public class BookControllerTest {
         when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
 
         mockMvc.perform(get("/books"))
-                .andExpect(jsonPath("$[0].title").value("book1"))
-                .andExpect(jsonPath("$[1].title").value("book2"))
-                .andExpect(jsonPath("$[0].description").value("description"))
-                .andExpect(jsonPath("$[0].ratings").value(2.0))
-                .andExpect(jsonPath("$[1].description").value("description"))
-                .andExpect(jsonPath("$[1].ratings").value(3.0));
+                .andExpect(jsonPath("$.books.[0].title").value("book1"))
+                .andExpect(jsonPath("$.books.[1].title").value("book2"))
+                .andExpect(jsonPath("$.books.[0].description").value("description"))
+                .andExpect(jsonPath("$.books.[0].ratings").value(2.0))
+                .andExpect(jsonPath("$.books.[1].description").value("description"))
+                .andExpect(jsonPath("$.books.[1].ratings").value(3.0));
 
         verify(bookRepository).findBy(any(Pageable.class));
     }
@@ -74,8 +74,8 @@ public class BookControllerTest {
                 anyString(),
                 any(Pageable.class))).thenReturn(List.of(b1));
         mockMvc.perform(get("/books").param("search", "author1"))
-                .andExpect(jsonPath("$[0].title").value("book1"))
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.books.[0].title").value("book1"))
+                .andExpect(jsonPath("$.books.length()").value(1));
         verify(bookRepository).findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(  anyString(),
                 anyString(),
                 anyString(), any(Pageable.class));
@@ -90,9 +90,9 @@ public class BookControllerTest {
         when(bookRepository.findBy(
                 any(Pageable.class))).thenReturn(Arrays.asList(book1,book2));
         mockMvc.perform(get("/books").param("pageNumber", "1").param("pageSize", "2"))
-                .andExpect(jsonPath("$[0].title").value("Refactoring"))
-                .andExpect(jsonPath("$[1].title").value("TDD"))
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.books.[0].title").value("Refactoring"))
+                .andExpect(jsonPath("$.books.[1].title").value("TDD"))
+                .andExpect(jsonPath("$.books.length()").value(2));
         verify(bookRepository).findBy(
                 any(Pageable.class));
     }
@@ -105,8 +105,8 @@ public class BookControllerTest {
                 anyString(),
                 anyString(), any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
         mockMvc.perform(get("/books").param("search", "author1"))
-                .andExpect(jsonPath("$[0].price").value(100))
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.books.[0].price").value(100))
+                .andExpect(jsonPath("$.books.length()").value(2));
         verify(bookRepository).findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
                 anyString(),
                 anyString(), any(Pageable.class));

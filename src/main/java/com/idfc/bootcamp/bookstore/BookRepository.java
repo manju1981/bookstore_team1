@@ -15,4 +15,5 @@ public interface BookRepository extends JpaRepository<Book, Long>, PagingAndSort
     List<Book> findBy( Pageable pageable);
 
 
+    long countByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(String titleSearch, String authorSearch, String descriptionSearch);
 }

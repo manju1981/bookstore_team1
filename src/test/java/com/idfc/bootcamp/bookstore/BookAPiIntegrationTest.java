@@ -45,9 +45,11 @@ public class BookAPiIntegrationTest {
 
         bookRepository.saveAll(Arrays.asList(book1, book2));
 
-        final List<Book> books = restTemplate.exchange(baseUrl+"/books", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){}).getBody();
+        BookListResponse bookListResponse = restTemplate.exchange(baseUrl+"/books", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}).getBody();
 
+        assert bookListResponse != null;
+        final List<Book> books = bookListResponse.getBooks();
         assert books != null;
         assertEquals(2, books.size());
     }
@@ -60,9 +62,11 @@ public class BookAPiIntegrationTest {
 
         bookRepository.saveAll(Arrays.asList(book1, book2));
 
-        final List<Book> books = restTemplate.exchange(baseUrl+"/books?search={search}", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){}, "Author1").getBody() ;
+        BookListResponse bookListResponse = restTemplate.exchange(baseUrl+"/books?search={search}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, "Author1").getBody() ;
 
+        assert bookListResponse != null;
+        final List<Book> books = bookListResponse.getBooks();
         assert books != null;
         assertEquals(1, books.size());
     }
@@ -77,9 +81,11 @@ public class BookAPiIntegrationTest {
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
 
-        final List<Book> books = restTemplate.exchange(baseUrl+"/books?search={search}", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){}, "test").getBody() ;
+        BookListResponse bookListResponse = restTemplate.exchange(baseUrl+"/books?search={search}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, "test").getBody() ;
 
+        assert bookListResponse != null;
+        final List<Book> books = bookListResponse.getBooks();
         assert books != null;
         assertEquals(3, books.size());
     }
@@ -92,9 +98,11 @@ public class BookAPiIntegrationTest {
 
         bookRepository.saveAll(Arrays.asList(book1, book2));
 
-        final List<Book> books = restTemplate.exchange(baseUrl+"/books?search={search}", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){}, "test").getBody() ;
+        BookListResponse bookListResponse = restTemplate.exchange(baseUrl+"/books?search={search}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, "test").getBody() ;
 
+        assert bookListResponse != null;
+        final List<Book> books = bookListResponse.getBooks();
         assert books != null;
         assertEquals(0, books.size());
     }
@@ -113,14 +121,18 @@ public class BookAPiIntegrationTest {
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4,book5, book6, book7, book8));
 
-         List<Book> books = restTemplate.exchange(baseUrl+"/books?pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){}, 0,2).getBody() ;
+        BookListResponse bookListResponse = restTemplate.exchange(baseUrl+"/books?pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, 0,2).getBody() ;
+        assert bookListResponse != null;
+        List<Book> books = bookListResponse.getBooks();
         assert books != null;
         assertEquals(books.get(0).getTitle(), book1.getTitle());
         assertEquals(books.get(1).getTitle(), book2.getTitle());
 
-        List<Book> books2 = restTemplate.exchange(baseUrl+"/books?pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){},1  ,4).getBody() ;
+        BookListResponse bookListResponse2 = restTemplate.exchange(baseUrl+"/books?pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){},1  ,4).getBody() ;
+        assert bookListResponse2 != null;
+        List<Book> books2 = bookListResponse2.getBooks();
         assert books2 != null;
         assertEquals(4,books2.size());
 
@@ -147,14 +159,34 @@ public class BookAPiIntegrationTest {
 
         bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4,book5, book6, book7, book8));
 
-        List<Book> books = restTemplate.exchange(baseUrl+"/books?search={search}&pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){}, "test",0,2).getBody() ;
+        BookListResponse bookListResponse = restTemplate.exchange(baseUrl+"/books?search={search}&pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, "test",0,2).getBody();
+        assert bookListResponse != null;
+        List<Book> books = bookListResponse.getBooks();
         assert books != null;
         assertEquals(books.get(0).getTitle(), book1.getTitle());
         assertEquals(books.get(1).getTitle(), book3.getTitle());
 
     }
 
+    @Test
+    @DisplayName("should return totalNumberOfRecords along with paginated list of books")
+    void shouldReturnTotalNumberOfRecordsAlongWithPaginatedListOfBooks() {
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100);
+        Book book3 = new Book("test", "Author3","description", 2.0, 100);
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100);
+
+        bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
+        BookListResponse actualBooksResponse = restTemplate.exchange(baseUrl+"/books?pageNumber={pageNumber}&pageSize={pageSize}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, 0,2).getBody() ;
+
+        BookListResponse expectedBooksResponse = new BookListResponse(Arrays.asList(book1, book2), 4);
+
+        assert actualBooksResponse != null;
+        assertEquals(expectedBooksResponse.getBooks().size(), actualBooksResponse.getBooks().size());
+        assertEquals(expectedBooksResponse.getTotalNoOfBooks(), actualBooksResponse.getTotalNoOfBooks());
+    }
 
     @AfterEach
     void tearDown() {
