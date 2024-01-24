@@ -9,8 +9,8 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI usersMicroserviceOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Your API Title")
-                        .description("Your API Description")
+                .info(new Info().title("Bookshop")
+                        .description("API details for bookshop")
                         .version("1.0"));
     }
 }
