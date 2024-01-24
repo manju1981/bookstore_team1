@@ -37,64 +37,58 @@ const BookListing = () => {
       <Header title="Book Details" />
 
       <Grid container paddingLeft={10} paddingTop={10}>
-        <Grid container xs={4}>
+        <Grid item xs={4} maxWidth={20}>
           <Card>
             <CardActionArea>
-              <CardMedia component="img" width={50} image={BookImage} alt="book-image" />
+              <CardMedia component="img" image={BookImage} alt="book-image" />
             </CardActionArea>
           </Card>
         </Grid>
-        <Grid container xs={8}>
-          <Grid item xs={12}>
-            <Typography variant="h5" data-testid="book-title">
-              {books.map((book) => (
-                <p key={book.id}>{`${book.title}`}</p>
-              ))}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="subtitle1" data-testid="book-description">
-              {books.map((book) => (
-                <p key={book.id}>{`${book.description}`}</p>
-              ))}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" data-testid="book-price">
-              {books.map((book) => (
-                <p key={book.id}>
-                  {'MRP: ₹'} {`${book.price}`}
-                </p>
-              ))}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Box
-              sx={{
-                width: 200,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {books.map((book) => (
-                <Rating
-                  key={book.id}
-                  name="text-feedback"
-                  value={book.rating}
-                  readOnly
-                  data-testid="book-rating"
-                  precision={0.5}
-                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                />
-              ))}
-              <Box sx={{ ml: 2 }}>{labels[books[0].rating]}</Box>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            Quantity
-          </Grid>
-          <Grid item xs={6}>
-            Button
+        <Grid item xs={8} textAlign="left" paddingLeft={10}>
+          <Typography variant="h5" data-testid="book-title">
+            {books.map((book) => (
+              <p key={book.id}>{`${book.title}`}</p>
+            ))}
+          </Typography>
+          <Typography variant="subtitle1" data-testid="book-description">
+            {books.map((book) => (
+              <p key={book.id}>{`${book.description}`}</p>
+            ))}
+          </Typography>
+          <Typography variant="h6" data-testid="book-price">
+            {books.map((book) => (
+              <p key={book.id}>
+                {'MRP: ₹'} {`${book.price}`}
+              </p>
+            ))}
+          </Typography>
+          <Box
+            sx={{
+              width: 200,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {books.map((book) => (
+              <Rating
+                key={book.id}
+                name="text-feedback"
+                value={book.rating}
+                readOnly
+                data-testid="book-rating"
+                precision={0.5}
+                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+              />
+            ))}
+            <Box sx={{ ml: 2 }}>{labels[books[0].rating]}</Box>
+          </Box>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={6}>
+              Quantity
+            </Grid>
+            <Grid item xs={6}>
+              Button
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
