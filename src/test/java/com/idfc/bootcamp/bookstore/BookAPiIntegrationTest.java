@@ -199,6 +199,25 @@ public class BookAPiIntegrationTest {
 //        assertEquals("Ashutosh", bookDetails.getAuthor());
 //    }
 
+    @Test
+    @DisplayName("should return sorted list of books in descending order of Price field")
+    void shouldReturnSortedListOfBooksInDescendingOrderOfPriceField() {
+        Book book1 = new Book("book1", "author1", "description", 2.0, 80);
+        Book book2 = new Book("book2", "author2","description", 3.0, 350);
+        Book book3 = new Book("book3", "author3", "description", 2.0, 590);
+        Book book4 = new Book("book4", "author4","description", 3.0, 600);
+
+        bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
+
+        BookListResponse actualBooksResponse = restTemplate.exchange(baseUrl+"/books?sortBy={sortBy}&order={order}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, "price","desc").getBody() ;
+        List<Book> books = actualBooksResponse.getBooks();
+        assert books != null;
+        assertEquals(4, books.size());
+        assertEquals(600, books.get(0).getPrice());
+        assertEquals(80, books.get(3).getPrice());
+    }
+
     @AfterEach
     void tearDown() {
         bookRepository.deleteAll();

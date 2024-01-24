@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -71,7 +70,6 @@ public class BookControllerTest {
     void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() throws Exception {
 
         Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-        Book b2 = new Book("book2", "author2","description", 3.0, 100);
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                 anyString(),
                 anyString(),
@@ -114,6 +112,20 @@ public class BookControllerTest {
         verify(bookRepository).findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
                 anyString(),
                 anyString(), any(Pageable.class));
+    }
+
+    @Test
+    @DisplayName("should return sorted list of books in descending order of Price field")
+    void shouldReturnSortedListOfBooksInDescendingOrderOfPriceField() throws Exception {
+        Book b1 = new Book("book1", "author1", "description", 2.0, 80);
+        Book b2 = new Book("book2", "author2","description", 3.0, 350);
+        Book b3 = new Book("book3", "author3", "description", 2.0, 590);
+        Book b4 = new Book("book4", "author4","description", 3.0, 600);
+
+        when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b4,b3,b2,b1));
+        mockMvc.perform(get("/books").param("sortBy", "price").param("order", "desc"))
+                .andExpect(jsonPath("$.books.[0].price").value(600))
+                .andExpect(jsonPath("$.books.[3].price").value(80));
     }
 
     @Test
