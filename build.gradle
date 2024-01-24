@@ -82,7 +82,11 @@ jacocoTestCoverageVerification {
 		}
 	}
 }
-
+jacocoTestReport {
+	reports {
+		csv.required = true
+	}
+}
 bootJar.dependsOn copyFrontendFiles
 
 /*compileJava*/
