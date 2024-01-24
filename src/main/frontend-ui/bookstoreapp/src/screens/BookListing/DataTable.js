@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import config from './ColumnConfig'
+import { useNavigate } from 'react-router-dom'
 
 const gridStyle = {
   height: 'calc(100vh - 60px)',
@@ -16,6 +17,7 @@ const DataTable = ({ searchString }) => {
   const [filterModel, setFilterModel] = useState({ items: [] })
   const [sortModel, setSortModel] = useState([])
   const [rows, setRows] = useState({ data: [] })
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetcher = () => {
@@ -30,14 +32,15 @@ const DataTable = ({ searchString }) => {
     fetcher()
   }, [paginationModel, sortModel, filterModel, setRows, searchString])
 
-  const navigateToBookDetails = () => {
-    console.log('Row clicked--->')
+  const navigateToBookDetails = (params) => {
+    const bookId = params.id
+    navigate(`/book/${bookId}`)
   }
 
   return (
     <div style={gridStyle} data-testid="list-table">
       <DataGrid
-        onRowClick={navigateToBookDetails}
+        onRowClick={(params) => navigateToBookDetails(params)}
         rows={rows.data}
         disableRowSelectionOnClick
         columns={config}
