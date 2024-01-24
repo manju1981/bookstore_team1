@@ -16,7 +16,7 @@ const DataTable = ({ searchString }) => {
 
   const [filterModel, setFilterModel] = useState({ items: [] })
   const [sortModel, setSortModel] = useState([])
-  const [data, setData] = useState({ books: [] })
+  const [data, setData] = useState({ books: [], totalNoOfBooks: 0 })
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const DataTable = ({ searchString }) => {
   }, [paginationModel, sortModel, filterModel, searchString])
 
   const navigateToBookDetails = (params) => {
-    const bookId = params.id
+    const bookId = params.row.id
     navigate(`/book/${bookId}`)
   }
 
