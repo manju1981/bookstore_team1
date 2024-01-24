@@ -25,6 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "lint:fix": "eslint src/**/*.js --fix",
     "lint": "eslint src/**/*.js",
@@ -60,5 +61,13 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "prettier": "^3.2.4"
-  }
+  },
+  "jest": {
+    "coveragePathIgnorePatterns" : [
+      "src/index.js",
+      "src/App.js",
+      "src/reportWebVitals.js",
+      "index.js"
+    ]
+}
 }
