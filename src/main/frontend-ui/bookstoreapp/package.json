@@ -16,6 +16,7 @@
     "build": "^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.3",
     "react-scripts": "5.0.1",
     "run": "^1.5.0",
     "styled-components": "^6.1.8",
@@ -63,11 +64,11 @@
     "prettier": "^3.2.4"
   },
   "jest": {
-    "coveragePathIgnorePatterns" : [
+    "coveragePathIgnorePatterns": [
       "src/index.js",
       "src/App.js",
       "src/reportWebVitals.js",
       "index.js"
     ]
-}
+  }
 }

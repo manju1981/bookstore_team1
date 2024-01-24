@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
 
 @RestController
 public class BookController {
@@ -24,7 +23,7 @@ public class BookController {
                                                       @RequestParam(required=false) Integer pageSize
                                 ){
 
-        if (Objects.isNull(pageNumber) || Objects.isNull(pageSize)) {
+        if (pageNumber == null || pageSize == null) {
             pageNumber = 0;
             pageSize =20;
         }
@@ -33,4 +32,14 @@ public class BookController {
 
         return  new ResponseEntity<>(bookListResponse, HttpStatus.OK);
     }
+
+    @CrossOrigin()
+    @GetMapping("book/{id}")
+    public ResponseEntity<BookDetails> getBook(@PathVariable long id){
+        BookDetails bookDetails = bookService.getBookById(id);
+        if(bookDetails==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(bookDetails, HttpStatus.OK);
+    }
+
 }

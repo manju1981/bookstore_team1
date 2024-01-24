@@ -1,0 +1,10 @@
+INSERT INTO inventory (book_id,stock) VALUES ('5','10');
+INSERT INTO inventory (book_id,stock) VALUES ('6','20');
+INSERT INTO inventory (book_id,stock) VALUES ('7','30');
+INSERT INTO inventory (book_id,stock) VALUES ('8','40');
+INSERT INTO inventory (book_id,stock) VALUES ('9','10');
+INSERT INTO inventory (book_id,stock) VALUES ('10','20');
+INSERT INTO inventory (book_id,stock) VALUES ('11','30');
+INSERT INTO inventory (book_id,stock) VALUES ('12','40');
+INSERT INTO inventory (book_id,stock) VALUES ('13','10');
+INSERT INTO inventory (book_id,stock) VALUES ('14','20');

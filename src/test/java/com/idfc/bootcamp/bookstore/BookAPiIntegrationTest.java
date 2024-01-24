@@ -8,6 +8,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -30,7 +31,6 @@ public class BookAPiIntegrationTest {
     int randomServerPort;
 
     private String baseUrl;
-    private Book book1;
 
     @BeforeEach
     void setUp() {
@@ -169,6 +169,7 @@ public class BookAPiIntegrationTest {
 
     }
 
+
     @Test
     @DisplayName("should return totalNumberOfRecords along with paginated list of books")
     void shouldReturnTotalNumberOfRecordsAlongWithPaginatedListOfBooks() {
@@ -187,6 +188,17 @@ public class BookAPiIntegrationTest {
         assertEquals(expectedBooksResponse.getBooks().size(), actualBooksResponse.getBooks().size());
         assertEquals(expectedBooksResponse.getTotalNoOfBooks(), actualBooksResponse.getTotalNoOfBooks());
     }
+//    @Test
+//    @DisplayName("should return book details based on book id")
+//    void shouldReturnBookDetailsBasedOnBookId() {
+//        Book book = new Book("Refactoring", "Ashutosh","Book for clean code", 2.0, 100);
+//        bookRepository.save(book);
+//        Inventory inventory = new Inventory(1, 10, 10);
+//        inventoryRepository.save(inventory);
+//        BookDetails bookDetails = restTemplate.exchange(baseUrl+"/book/1", HttpMethod.GET, null,
+//                new ParameterizedTypeReference<BookDetails>(){}).getBody() ;
+//        assertEquals("Ashutosh", bookDetails.getAuthor());
+//    }
 
     @AfterEach
     void tearDown() {

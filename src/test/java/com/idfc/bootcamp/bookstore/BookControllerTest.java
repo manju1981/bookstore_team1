@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -26,6 +27,9 @@ public class BookControllerTest {
 
     @MockBean
     BookRepository bookRepository;
+
+    @MockBean
+    BookDetailsRepository bookDetailsRepository;
 
     Book b1 = new Book("book1", "author1", "description", 2.0, 100);
     Book b2 = new Book("book2", "author2","description", 3.0, 100);
@@ -112,5 +116,36 @@ public class BookControllerTest {
                 anyString(), any(Pageable.class));
     }
 
+    @Test
+    @DisplayName("should return book details based on id when it is not added to cart")
+    void shouldReturnBookDetailsBasedOnIdWhenItIsNotAddedToCart() throws Exception {
+        BookDetails bookDetails = new BookDetails(1,"Ashutosh book", "Ashutosh",
+                "written by hariharan copied by ashutosh", 2.0, 10000,10,0);
 
+        when(bookDetailsRepository.findById(1)).thenReturn(bookDetails);
+        mockMvc.perform(get("/book/1"))
+                .andExpect(jsonPath("$.title").value("Ashutosh book"));
+        verify(bookDetailsRepository).findById(1);
+    }
+
+    @Test
+    @DisplayName("should return not found when id is not available in DB")
+    void shouldReturnNotFoundWhenIdIsNotAvailableInDb() throws Exception {
+        when(bookDetailsRepository.findById(100)).thenReturn(null);
+        mockMvc.perform(get("/book/100"))
+                .andExpect(status().isNotFound());
+        verify(bookDetailsRepository).findById(100);
+    }
+
+    @Test
+    @DisplayName("should return book details when its added in cart")
+    void shouldReturnBookDetailsWhenItsAddedInCart() throws Exception {
+        BookDetails bookDetails = new BookDetails(1,"Ashutosh book", "Ashutosh",
+                "written by hariharan copied by ashutosh", 2.0, 10000,10,10);
+
+        when(bookDetailsRepository.findById(1)).thenReturn(bookDetails);
+        mockMvc.perform(get("/book/1"))
+                .andExpect(jsonPath("$.title").value("Ashutosh book"));
+        verify(bookDetailsRepository).findById(1);
+    }
 }
