@@ -1,6 +1,7 @@
 import { render, screen, act, fireEvent } from '@testing-library/react'
 import BookListing from './BookListing'
 import DataTable from './DataTable'
+import { MemoryRouter } from 'react-router-dom'
 
 const books = [
   { id: 1, title: 'Book 1', author: 'Author 1' },
@@ -8,7 +9,11 @@ const books = [
 ]
 
 test('renders header', () => {
-  render(<BookListing />)
+  render(
+    <MemoryRouter>
+      <BookListing />
+    </MemoryRouter>
+  )
   const header = screen.getByTestId('header-bar')
   const headerTitle = screen.getByTestId('header-bar-title')
   expect(header).toBeInTheDocument()
@@ -16,7 +21,11 @@ test('renders header', () => {
 })
 
 test('handleSearch updates searchString correctly', () => {
-  render(<BookListing />)
+  render(
+    <MemoryRouter>
+      <BookListing />
+    </MemoryRouter>
+  )
 
   const searchInput = screen.getByRole('textbox', { name: /search/i })
   act(() => {
@@ -27,7 +36,13 @@ test('handleSearch updates searchString correctly', () => {
 })
 
 test('it should show table header and 5 rows of books in the list', async () => {
-  await act(async () => render(<DataTable books={books} />))
+  await act(async () =>
+    render(
+      <MemoryRouter>
+        <DataTable searchString="yourSearchString" />
+      </MemoryRouter>
+    )
+  )
   const table = screen.getByTestId('list-table')
   expect(table).toBeInTheDocument()
   const book = screen.getByText('Book Title')
@@ -48,7 +63,13 @@ test('it should navigate to the details page on click of a row', async () => {
     json: jest.fn().mockResolvedValue(books),
   })
 
-  await act(async () => render(<DataTable books={books} />))
+  await act(async () =>
+    render(
+      <MemoryRouter>
+        <DataTable books={books} />
+      </MemoryRouter>
+    )
+  )
   const table = screen.getByTestId('list-table')
   expect(table).toBeInTheDocument()
   const book = screen.getByText('Book Title')
