@@ -187,6 +187,26 @@ public class BookAPiIntegrationTest {
         assertEquals(expectedBooksResponse.getBooks().size(), actualBooksResponse.getBooks().size());
         assertEquals(expectedBooksResponse.getTotalNoOfBooks(), actualBooksResponse.getTotalNoOfBooks());
     }
+
+    @Test
+    @DisplayName("should return totalNumberOfRecords along with paginated list of books when page number is null")
+    void shouldReturnTotalNumberOfRecordsAlongWithPaginatedListOfBooksWhenPageNumberIsNull() {
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100);
+        Book book3 = new Book("test", "Author3","description", 2.0, 100);
+        Book book4 = new Book("BOOK4", "Author4","description", 2.0, 100);
+
+        bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
+        BookListResponse actualBooksResponse = restTemplate.exchange(baseUrl+"/books?pageSize={pageSize}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, 2).getBody() ;
+
+        BookListResponse expectedBooksResponse = new BookListResponse(Arrays.asList(book1, book2), 4);
+
+        assert actualBooksResponse != null;
+        assertEquals(expectedBooksResponse.getBooks().size(), actualBooksResponse.getBooks().size());
+        assertEquals(expectedBooksResponse.getTotalNoOfBooks(), actualBooksResponse.getTotalNoOfBooks());
+    }
+
 //    @Test
 //    @DisplayName("should return book details based on book id")
 //    void shouldReturnBookDetailsBasedOnBookId() {
@@ -211,11 +231,32 @@ public class BookAPiIntegrationTest {
 
         BookListResponse actualBooksResponse = restTemplate.exchange(baseUrl+"/books?sortBy={sortBy}&order={order}", HttpMethod.GET, null,
                 new ParameterizedTypeReference<BookListResponse>(){}, "price","desc").getBody() ;
+        assert actualBooksResponse != null;
         List<Book> books = actualBooksResponse.getBooks();
         assert books != null;
         assertEquals(4, books.size());
         assertEquals(600, books.get(0).getPrice());
         assertEquals(80, books.get(3).getPrice());
+    }
+
+    @Test
+    @DisplayName("should return sorted list of books in ascending order of Price field")
+    void shouldReturnSortedListOfBooksInAscendingOrderOfPriceField() {
+        Book book1 = new Book("book1", "author1", "description", 2.0, 80);
+        Book book2 = new Book("book2", "author2","description", 3.0, 350);
+        Book book3 = new Book("book3", "author3", "description", 2.0, 590);
+        Book book4 = new Book("book4", "author4","description", 3.0, 600);
+
+        bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
+
+        BookListResponse actualBooksResponse = restTemplate.exchange(baseUrl+"/books?sortBy={sortBy}&order={order}", HttpMethod.GET, null,
+                new ParameterizedTypeReference<BookListResponse>(){}, "price","asc").getBody() ;
+        assert actualBooksResponse != null;
+        List<Book> books = actualBooksResponse.getBooks();
+        assert books != null;
+        assertEquals(4, books.size());
+        assertEquals(80, books.get(0).getPrice());
+        assertEquals(600, books.get(3).getPrice());
     }
 
     @AfterEach
