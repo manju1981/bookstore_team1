@@ -17,7 +17,6 @@ const DataTable = ({ searchString }) => {
   const [sortModel, setSortModel] = useState([])
   const [rows, setRows] = useState({ data: [] })
 
-
   useEffect(() => {
     const fetcher = () => {
       fetch(
