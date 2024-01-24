@@ -21,15 +21,16 @@ public class BookController {
     @GetMapping("books")
     public ResponseEntity<BookListResponse> listBooks(@RequestParam(required=false) String search,
                                                       @RequestParam(required=false) Integer pageNumber,
-                                                      @RequestParam(required=false) Integer pageSize
-                                ){
+                                                      @RequestParam(required=false) Integer pageSize,
+                                                      @RequestParam(required = false) String sortBy,
+                                                      @RequestParam(required = false) String order){
 
         if (Objects.isNull(pageNumber) || Objects.isNull(pageSize)) {
             pageNumber = 0;
             pageSize =20;
         }
 
-       BookListResponse bookListResponse = bookService.fetchBooks(search,pageNumber,pageSize);
+       BookListResponse bookListResponse = bookService.fetchBooks(search,pageNumber,pageSize,sortBy,order);
 
         return  new ResponseEntity<>(bookListResponse, HttpStatus.OK);
     }
