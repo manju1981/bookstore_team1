@@ -60,7 +60,7 @@ task buildFrontend(type: YarnTask, dependsOn: installFEDependencies){
 task testFrontend(type: YarnTask, dependsOn: installFEDependencies){
 	description = "Builds applciation for your frontend "
 	workingDir = file("${project.projectDir}/src/main/frontend-ui/bookstoreapp")
-	args =["test", "--watchAll=false"]
+	args =["test:coverage", "--watchAll=false"]
 }
 
 task copyFrontendFiles(type: Copy, dependsOn: [buildFrontend, resolveMainClassName]){
