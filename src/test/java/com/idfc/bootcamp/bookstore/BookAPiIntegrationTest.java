@@ -169,7 +169,6 @@ public class BookAPiIntegrationTest {
 
     }
 
-
     @Test
     @DisplayName("should return totalNumberOfRecords along with paginated list of books")
     void shouldReturnTotalNumberOfRecordsAlongWithPaginatedListOfBooks() {
