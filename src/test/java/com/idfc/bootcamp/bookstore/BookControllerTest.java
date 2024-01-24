@@ -30,8 +30,8 @@ public class BookControllerTest {
     @MockBean
     BookDetailsRepository bookDetailsRepository;
 
-    Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-    Book b2 = new Book("book2", "author2","description", 3.0, 100);
+    Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+    Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
 
     @Test
     @org.junit.jupiter.api.DisplayName("should return success http status")
@@ -69,7 +69,12 @@ public class BookControllerTest {
     @DisplayName("should search in title, description or Author when search query is passed ")
     void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() throws Exception {
 
+<<<<<<< Updated upstream
         Book b1 = new Book("book1", "author1", "description", 2.0, 100);
+=======
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+        Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
+>>>>>>> Stashed changes
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                 anyString(),
                 anyString(),
@@ -86,8 +91,8 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return paginated list of books based on page number and page size")
     void shouldReturnPaginatedListOfBooksBasedOnOffsetAndTake() throws Exception {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "testing","description", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "testing","description", 2.0, 100, "image_url");
 
         when(bookRepository.findBy(
                 any(Pageable.class))).thenReturn(Arrays.asList(book1,book2));
@@ -101,8 +106,8 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return price for the first book")
     void shouldReturnPriceForTheFirstBook() throws Exception {
-        Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-        Book b2 = new Book("book2", "author2","description", 3.0, 100);
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+        Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
                 anyString(),
                 anyString(), any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
