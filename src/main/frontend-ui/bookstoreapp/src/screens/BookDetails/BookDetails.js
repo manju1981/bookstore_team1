@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import { Grid, Box, Rating } from '@mui/material'
 import Header from '../../components/Header'
 import { Typography } from '@mui/material'
-import { Card, CardMedia, CardActionArea } from '@mui/material'
-import StarIcon from '@mui/icons-material/Star'
+import { Card, CardMedia, CardActionArea, Button, Stack } from '@mui/material'
 import BookImage from '../../assets/book-image.png'
+import { Unstable_NumberInput as BaseNumberInput } from '@mui/base/Unstable_NumberInput'
+import { StyledInputRoot, StyledInput, StyledButton } from './BookDetails.style'
+import Star from '@mui/icons-material/Star'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 
 const BookListing = () => {
   const sampleBooks = [
@@ -17,6 +22,30 @@ const BookListing = () => {
       rating: 3.5,
     },
   ]
+
+  const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
+    return (
+      <BaseNumberInput
+        slots={{
+          root: StyledInputRoot,
+          input: StyledInput,
+          incrementButton: StyledButton,
+          decrementButton: StyledButton,
+        }}
+        slotProps={{
+          incrementButton: {
+            children: <AddIcon fontSize="small" />,
+            className: 'increment',
+          },
+          decrementButton: {
+            children: <RemoveIcon fontSize="small" />,
+          },
+        }}
+        {...props}
+        ref={ref}
+      />
+    )
+  })
 
   const [books] = useState(sampleBooks)
   const labels = {
@@ -77,17 +106,21 @@ const BookListing = () => {
                 readOnly
                 data-testid="book-rating"
                 precision={0.5}
-                emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                emptyIcon={<Star style={{ opacity: 0.55 }} fontSize="inherit" />}
               />
             ))}
             <Box sx={{ ml: 2 }}>{labels[books[0].rating]}</Box>
           </Box>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={6}>
-              Quantity
+          <Grid container spacing={2} alignItems="left" paddingTop={5}>
+            <Grid item xs={4}>
+              <NumberInput aria-label="Quantity" min={1} max={20} />
             </Grid>
-            <Grid item xs={6}>
-              Button
+            <Grid item xs={8}>
+              <Stack direction="row" spacing={2}>
+                <Button variant="outlined" startIcon={<AddShoppingCartIcon />}>
+                  Add to Cart
+                </Button>
+              </Stack>
             </Grid>
           </Grid>
         </Grid>
