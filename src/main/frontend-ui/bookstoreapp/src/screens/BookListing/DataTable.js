@@ -15,15 +15,23 @@ const DataTable = ({ searchString }) => {
   })
 
   const [filterModel, setFilterModel] = useState({ items: [] })
-  const [sortModel, setSortModel] = useState([])
-  const [data, setData] = useState({ books: [], totalNoOfBooks: 0 })
+  const [sortModel, setSortModel] = useState()
+  const [data, setData] = useState({ books: [] })
   const navigate = useNavigate()
 
   useEffect(() => {
+    const searchParam = `search=${searchString}`
+    const pageParam = `pageNumber=${paginationModel.page}&pageSize=${paginationModel.pageSize}`
+    const orderParam =
+      sortModel &&
+      sortModel.length &&
+      `sortBy=${sortModel[0].field}&order=${sortModel[0].sort}`
+    let queryParams = `${searchParam}&${pageParam}`
+
+    if (orderParam) queryParams += `&${orderParam}`
+
     const fetcher = () => {
-      fetch(
-        `http://localhost:8090/books?search=${searchString}&pageNumber=${paginationModel.page}&pageSize=${paginationModel.pageSize}`
-      )
+      fetch(`http://localhost:8090/books?${queryParams}`)
         .then((response) => response.json())
         .then((data) => {
           setData(data)
