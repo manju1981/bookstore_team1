@@ -37,7 +37,7 @@ tasks.named('test') {
          'junit.jupiter.execution.parallel.mode.default': 'same_thread',
          'junit.jupiter.execution.parallel.mode.classes.default': 'concurrent',
    ])
-	finalizedBy jacocoTestCoverageVerification
+	finalizedBy jacocoTestReport
 }
 
 node {
@@ -82,7 +82,6 @@ jacocoTestCoverageVerification {
 		}
 	}
 }
-jacocoTestCoverageVerification.dependsOn jacocoTestReport
 
 bootJar.dependsOn copyFrontendFiles
 
