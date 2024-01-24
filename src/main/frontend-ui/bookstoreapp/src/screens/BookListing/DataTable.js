@@ -6,6 +6,7 @@ const gridStyle = {
   height: 'calc(100vh - 60px)',
   width: '100%',
 }
+
 const DataTable = ({ searchString }) => {
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -15,6 +16,7 @@ const DataTable = ({ searchString }) => {
   const [filterModel, setFilterModel] = useState({ items: [] })
   const [sortModel, setSortModel] = useState([])
   const [rows, setRows] = useState({ data: [] })
+
 
   useEffect(() => {
     const fetcher = () => {
