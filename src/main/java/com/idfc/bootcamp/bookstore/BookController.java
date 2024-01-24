@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class BookController {
@@ -23,7 +22,7 @@ public class BookController {
                                 @RequestParam(required=false) Integer pageSize
                                 ){
 
-        if (Objects.isNull(pageNumber) || Objects.isNull(pageSize)) {
+        if (pageNumber == null || pageSize == null) {
             pageNumber = 0;
             pageSize =20;
         }
