@@ -140,8 +140,6 @@ public class BookAPiIntegrationTest {
         assertEquals(books2.get(1).getTitle(), book6.getTitle());
         assertEquals(books2.get(2).getTitle(), book7.getTitle());
         assertEquals(books2.get(3).getTitle(), book8.getTitle());
-
-
     }
 
 
