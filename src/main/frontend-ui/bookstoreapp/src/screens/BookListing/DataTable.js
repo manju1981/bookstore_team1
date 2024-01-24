@@ -6,7 +6,8 @@ const gridStyle = {
   height: 'calc(100vh - 60px)',
   width: '100%',
 }
-const DataTable = ({ books }) => {
+
+const DataTable = ({ searchString }) => {
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: 5,
@@ -15,7 +16,7 @@ const DataTable = ({ books }) => {
   const [filterModel, setFilterModel] = useState({ items: [] })
   const [sortModel, setSortModel] = useState([])
   const [rows, setRows] = useState({ data: [] })
-  const searchString = 'code'
+
 
   useEffect(() => {
     const fetcher = () => {
@@ -28,12 +29,12 @@ const DataTable = ({ books }) => {
         })
     }
     fetcher()
-  }, [paginationModel, sortModel, filterModel, setRows])
+  }, [paginationModel, sortModel, filterModel, setRows, searchString])
 
   const navigateToBookDetails = () => {
     console.log('Row clicked--->')
   }
-  console.log(rows)
+
   return (
     <div style={gridStyle} data-testid="list-table">
       <DataGrid
