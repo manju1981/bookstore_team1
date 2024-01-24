@@ -13,10 +13,17 @@ import {
 import RemoveIcon from '@mui/icons-material/Remove'
 import AddIcon from '@mui/icons-material/Add'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import { styled } from '@mui/system'
 
 const BookDetails = () => {
   const { id } = useParams()
   const [bookDetails, setBookDetails] = useState()
+
+  const BookDetailsContainer = styled('div')({
+    padding: '20px',
+    maxWidth: '2000px',
+    margin: 'auto',
+  })
 
   const NumberInput = React.forwardRef(function CustomNumberInput(props, ref) {
     return (
@@ -58,59 +65,71 @@ const BookDetails = () => {
   return (
     <>
       <Header title="Book Details" data-testid="header-bar" />
-      <Grid container paddingLeft={10} paddingTop={10}>
-        <Grid item xs={4} maxWidth={20}>
-          <Box
-            component="img"
-            sx={{ width: 300 }}
-            alt={bookDetails.title}
-            src={BookImage}
-          />
-        </Grid>
-        <Grid item xs={8} textAlign="left" paddingLeft={10}>
-          <Typography variant="h5" data-testid="book-title">
-            <p>{`${bookDetails.title}`}</p>
-          </Typography>
-          <Typography variant="subtitle1" data-testid="book-description">
-            <p>{`${bookDetails.description}`}</p>
-          </Typography>
-          <Typography variant="h6" data-testid="book-price">
-            <p>
-              {'MRP: ₹'} {`${bookDetails.price}`}
-            </p>
-          </Typography>
-          <Box
-            sx={{
-              width: 200,
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <Rating
-              name="text-feedback"
-              readOnly
-              value={bookDetails.ratings}
-              data-testid="book-rating"
-              precision={0.5}
+      <BookDetailsContainer>
+        <Grid container>
+          <Grid item xs={12} md={4}>
+            <Box
+              component="img"
+              sx={{ width: 300 }}
+              alt={bookDetails.title}
+              src={BookImage}
             />
-          </Box>
-          <Grid container spacing={2} paddingTop={5}>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" data-testid="select-quantity">
-                Select Quantity:
-              </Typography>
-              <NumberInput aria-label="Quantity" min={1} max={20} paddingTop={10} />
-            </Grid>
-            <Grid item xs={12} paddingTop={5}>
-              <Stack direction="row" spacing={2}>
-                <Button variant="contained" startIcon={<ShoppingCartIcon />}>
-                  Add to Cart
-                </Button>
-              </Stack>
+          </Grid>
+          <Grid item xs={12} md={8} textAlign="left">
+            <Typography variant="h5" data-testid="book-title">
+              <p>{`${bookDetails.title}`}</p>
+            </Typography>
+            <Typography variant="h6" data-testid="book-author">
+              <p>{`${bookDetails.author}`}</p>
+            </Typography>
+            <Typography variant="subtitle1" data-testid="book-description">
+              <p>{`${bookDetails.description}`}</p>
+            </Typography>
+            <Typography variant="h6" data-testid="book-price">
+              <p>
+                {'MRP: ₹'} {`${bookDetails.price}`}
+              </p>
+            </Typography>
+            <Box
+              sx={{
+                width: 200,
+                display: 'flex',
+                alignItems: 'start',
+              }}
+            >
+              <Rating
+                name="text-feedback"
+                readOnly
+                value={bookDetails.ratings}
+                data-testid="book-rating"
+                precision={0.5}
+              />
+            </Box>
+            <Grid
+              container
+              spacing={5}
+              paddingTop={7}
+              rowGap={2}
+              sx={{ display: 'flex', justifyContent: 'flex-start' }}
+            >
+              <Grid item xs={12} display="flex" justifyContent="flex-start">
+                <NumberInput aria-label="Quantity" max={20} defaultValue={0} />
+              </Grid>
+              <Grid item xs={12}>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    startIcon={<ShoppingCartIcon />}
+                  >
+                    Add to Cart
+                  </Button>
+                </Stack>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </BookDetailsContainer>
     </>
   )
 }
