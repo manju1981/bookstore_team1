@@ -26,8 +26,6 @@ public class BookAPiIntegrationTest {
 
     @Autowired
     private BookRepository bookRepository;
-    @Autowired
-    InventoryRepository inventoryRepository;
 
     @LocalServerPort
     int randomServerPort;
