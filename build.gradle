@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'com.github.node-gradle.node' version '7.0.1'
+	id 'jacoco'
 //	id "com.moowork.node" version "1.3.1"
 }
 
@@ -36,6 +37,7 @@ tasks.named('test') {
          'junit.jupiter.execution.parallel.mode.default': 'same_thread',
          'junit.jupiter.execution.parallel.mode.classes.default': 'concurrent',
    ])
+	finalizedBy jacocoTestCoverageVerification
 }
 
 node {
@@ -62,9 +64,25 @@ task testFrontend(type: YarnTask, dependsOn: installFEDependencies){
 }
 
 task copyFrontendFiles(type: Copy, dependsOn: [buildFrontend, resolveMainClassName]){
-	from "${project.projectDir}/src/main/frontend-ui/bookstoreapp/build/"
+	from "${project.projectDir}/src/main/frontend-ui/bookstoreapp/build/static"
 	into "${project.projectDir}/build/resources/main/static"
 }
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				counter = 'LINE'
+				minimum = 0.87
+			}
+			limit {
+				counter = 'BRANCH'
+				minimum = 0.80
+			}
+		}
+	}
+}
+
 
 bootJar.dependsOn copyFrontendFiles
 
