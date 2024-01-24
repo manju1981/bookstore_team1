@@ -1,16 +1,9 @@
 import Header from '../../components/Header'
 import DataTable from './DataTable'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const BookListing = () => {
   const [filteredBooks, setFilteredBooks] = useState([])
-  useEffect(() => {
-    fetch('http://localhost:8090/books')
-      .then((response) => response.json())
-      .then((response) => {
-        setFilteredBooks(response)
-      })
-  }, [])
 
   const handleSearch = (searchValue) => {
     fetch(`http://localhost:8090/books?search=${searchValue}`)
