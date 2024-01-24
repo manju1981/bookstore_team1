@@ -12,10 +12,13 @@ import java.util.*;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final BookDetailsRepository bookDetailsRepository;
+
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, BookDetailsRepository bookDetailsRepository) {
         this.bookRepository = bookRepository;
+        this.bookDetailsRepository = bookDetailsRepository;
     }
     public BookListResponse fetchBooks(String search, int pageNumber, int pageSize, String sortBy, String order) {
 
@@ -53,6 +56,10 @@ public class BookService {
         }
 
         return new BookListResponse(list,totalNumberOfBooks);
+    }
+
+    public BookDetails getBookById(long id){
+        return bookDetailsRepository.findById(id);
     }
 
 }
