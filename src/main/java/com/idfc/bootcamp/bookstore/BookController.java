@@ -25,10 +25,8 @@ public class BookController {
                                                       @RequestParam(required = false) String sortBy,
                                                       @RequestParam(required = false) String order){
 
-        if (pageNumber == null || pageSize == null) {
-            pageNumber = 0;
-            pageSize =20;
-        }
+        if (pageNumber == null) pageNumber = 0;
+        if( pageSize == null) pageSize = 20;
 
        BookListResponse bookListResponse = bookService.fetchBooks(search,pageNumber,pageSize,sortBy,order);
 
