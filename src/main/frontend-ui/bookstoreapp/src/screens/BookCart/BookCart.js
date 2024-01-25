@@ -4,6 +4,7 @@ import { Grid } from '@mui/material'
 import Button from '@mui/material/Button'
 import Header from '../../components/Header'
 import BookImage from '../../assets/book-image.png'
+import Dropdown from '../../components/Dropdown/Dropdown'
 
 const BookCart = () => {
   const books = [
@@ -84,6 +85,7 @@ const BookCart = () => {
       <Header title="Book Details" showSearchBar={false} />
       <CartItems books={books} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Dropdown />
         <Button
           variant="contained"
           sx={{ ml: 'auto', m: 2, fontWeight: 'bold', width: '200px' }}
