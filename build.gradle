@@ -89,5 +89,6 @@ jacocoTestReport {
 	}
 }
 bootJar.dependsOn copyFrontendFiles
+bootRun.dependsOn copyFrontendFiles
 
 /*compileJava*/
