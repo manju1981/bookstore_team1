@@ -11,7 +11,7 @@ const BookListing = () => {
 
   return (
     <>
-      <Header title="Team 1 Book Store" onSearch={handleSearch} />
+      <Header title="Team 1 Book Store" onSearch={handleSearch} showSearchBar={true} />
       <DataTable searchString={searchString} />
     </>
   )

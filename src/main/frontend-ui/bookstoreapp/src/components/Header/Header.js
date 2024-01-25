@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Search, StyledInputBase, SearchIconWrapper } from './Header.style'
 
-export default function SearchAppBar({ title, onSearch }) {
+export default function SearchAppBar({ title, onSearch, showSearchBar = false }) {
   const debouncedSearch = useMemo(
     () =>
       debounce((value) => {
@@ -57,16 +57,18 @@ export default function SearchAppBar({ title, onSearch }) {
           >
             {title}
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={onChange}
-            />
-          </Search>
+          {showSearchBar && (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={onChange}
+              />
+            </Search>
+          )}
           <ShoppingCartIcon sx={{ cursor: 'pointer', ml: 2 }} onClick={navigateToCart} />
         </Toolbar>
       </AppBar>
