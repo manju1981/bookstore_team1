@@ -6,8 +6,10 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import logo from '../../assets/book.png'
 import { debounce } from 'lodash'
+import { useNavigate } from 'react-router-dom'
 
 import { Search, StyledInputBase, SearchIconWrapper } from './Header.style'
 
@@ -23,6 +25,11 @@ export default function SearchAppBar({ title, onSearch }) {
   const onChange = (event) => {
     const { value } = event.target
     debouncedSearch(value)
+  }
+
+  const navigate = useNavigate()
+  const navigateToCart = (params) => {
+    navigate(`/cart`)
   }
 
   return (
@@ -60,6 +67,7 @@ export default function SearchAppBar({ title, onSearch }) {
               onChange={onChange}
             />
           </Search>
+          <ShoppingCartIcon sx={{ cursor: 'pointer', ml: 2 }} onClick={navigateToCart} />
         </Toolbar>
       </AppBar>
     </Box>
