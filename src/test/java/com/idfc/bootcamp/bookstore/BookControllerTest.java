@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class BookControllerTest {
 
     @MockBean
     CountryRepository countryRepository;
-  
+
     Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
     Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
 
@@ -73,7 +74,6 @@ public class BookControllerTest {
     void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() throws Exception {
 
         Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
-        Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                 anyString(),
                 anyString(),
@@ -135,13 +135,13 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return book details based on id when it is not added to cart")
     void shouldReturnBookDetailsBasedOnIdWhenItIsNotAddedToCart() throws Exception {
-        BookDetails bookDetails = new BookDetails(1,"Ashutosh book", "Ashutosh",
+        BookDetails bookDetails = new BookDetails(2,"Ashutosh book", "Ashutosh",
                 "written by hariharan copied by ashutosh", 2.0, 10000,10,0);
-
-        when(bookDetailsRepository.findById(1)).thenReturn(bookDetails);
-        mockMvc.perform(get("/book/1"))
-                .andExpect(jsonPath("$.quantity").value(0));
-//        verify(bookDetailsRepository).findById(1);
+        when(bookDetailsRepository.findById(2)).thenReturn(bookDetails);
+        mockMvc.perform(get("/book/2").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Ashutosh book"))
+                .andExpect(jsonPath("$.quantity").value("0"));
     }
 
     @Test
@@ -162,6 +162,6 @@ public class BookControllerTest {
         when(bookDetailsRepository.findById(1)).thenReturn(bookDetails);
         mockMvc.perform(get("/book/1"))
                 .andExpect(jsonPath("$.title").value("Ashutosh book"));
-        verify(bookDetailsRepository).findById(1);
+        verify(bookDetailsRepository).findById(1L);
     }
 }
