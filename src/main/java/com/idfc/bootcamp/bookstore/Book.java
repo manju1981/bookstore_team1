@@ -17,12 +17,15 @@ public class Book {
     protected double ratings;
     protected int price;
 
-    public Book(String title, String author, String description, double ratings, int price) {
+    private String image_url;
+
+    public Book(String title, String author, String description, double ratings, int price, String image_url) {
         this.title = title;
         this.author = author;
         this.description = description;
         this.ratings = ratings;
         this.price = price;
+        this.image_url = image_url;
     }
     public Book(long id, String title, String author, String description, double ratings, int price) {
         this.id = id;
@@ -57,4 +60,7 @@ public class Book {
         return price;
     }
 
+    public String getImage_url() {
+        return image_url;
+    }
 }

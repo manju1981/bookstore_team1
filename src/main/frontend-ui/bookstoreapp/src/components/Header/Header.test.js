@@ -1,16 +1,25 @@
 import { render, fireEvent, act, waitFor } from '@testing-library/react'
 import SearchAppBar from '../Header/Header'
+import { MemoryRouter } from 'react-router-dom'
 
 beforeEach(() => {
   jest.useFakeTimers()
 })
 
 test('renders SearchAppBar component', () => {
-  render(<SearchAppBar title="Test Title" onSearch={() => {}} />)
+  render(
+    <MemoryRouter>
+      <SearchAppBar title="Test Title" onSearch={() => {}} />
+    </MemoryRouter>
+  )
 })
 
 test('displays the correct title', () => {
-  const { getByTestId } = render(<SearchAppBar title="Test Title" onSearch={() => {}} />)
+  const { getByTestId } = render(
+    <MemoryRouter>
+      <SearchAppBar title="Test Title" onSearch={() => {}} />
+    </MemoryRouter>
+  )
   const titleElement = getByTestId('header-bar-title')
   expect(titleElement.textContent).toBe('Test Title')
 })
@@ -18,7 +27,9 @@ test('displays the correct title', () => {
 test('calls onSearch function when the user types into the search input', () => {
   const mockOnSearch = jest.fn()
   const { getByPlaceholderText } = render(
-    <SearchAppBar title="Test Title" onSearch={mockOnSearch} />
+    <MemoryRouter>
+      <SearchAppBar title="Test Title" onSearch={mockOnSearch} />
+    </MemoryRouter>
   )
   const searchInput = getByPlaceholderText('Search…')
 
@@ -33,7 +44,9 @@ test('calls onSearch function when the user types into the search input', () => 
 test('debounces the search input', async () => {
   const mockOnSearch = jest.fn()
   const { getByPlaceholderText } = render(
-    <SearchAppBar title="Test Title" onSearch={mockOnSearch} />
+    <MemoryRouter>
+      <SearchAppBar title="Test Title" onSearch={mockOnSearch} />
+    </MemoryRouter>
   )
   const searchInput = getByPlaceholderText('Search…')
 

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -36,6 +35,11 @@ public class BookControllerTest {
     BookDetailsRepository bookDetailsRepository;
 
     @MockBean
+    CountryRepository countryRepository;
+
+    Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+    Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
+    @MockBean
     CartRepository cartRepository;
     @MockBean
     CartItemsRepository cartItemsRepository;
@@ -56,7 +60,7 @@ public class BookControllerTest {
         when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
 
         mockMvc.perform(get("/books"))
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.books.length()").value(2));
         verify(bookRepository).findBy(any(Pageable.class));
     }
 
@@ -66,12 +70,12 @@ public class BookControllerTest {
         when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
 
         mockMvc.perform(get("/books"))
-                .andExpect(jsonPath("$[0].title").value("book1"))
-                .andExpect(jsonPath("$[1].title").value("book2"))
-                .andExpect(jsonPath("$[0].description").value("description"))
-                .andExpect(jsonPath("$[0].ratings").value(2.0))
-                .andExpect(jsonPath("$[1].description").value("description"))
-                .andExpect(jsonPath("$[1].ratings").value(3.0));
+                .andExpect(jsonPath("$.books.[0].title").value("book1"))
+                .andExpect(jsonPath("$.books.[1].title").value("book2"))
+                .andExpect(jsonPath("$.books.[0].description").value("description"))
+                .andExpect(jsonPath("$.books.[0].ratings").value(2.0))
+                .andExpect(jsonPath("$.books.[1].description").value("description"))
+                .andExpect(jsonPath("$.books.[1].ratings").value(3.0));
 
         verify(bookRepository).findBy(any(Pageable.class));
     }
@@ -80,16 +84,15 @@ public class BookControllerTest {
     @DisplayName("should search in title, description or Author when search query is passed ")
     void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() throws Exception {
 
-        Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-        Book b2 = new Book("book2", "author2","description", 3.0, 100);
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                 anyString(),
                 anyString(),
                 anyString(),
                 any(Pageable.class))).thenReturn(List.of(b1));
         mockMvc.perform(get("/books").param("search", "author1"))
-                .andExpect(jsonPath("$[0].title").value("book1"))
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.books.[0].title").value("book1"))
+                .andExpect(jsonPath("$.books.length()").value(1));
         verify(bookRepository).findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(  anyString(),
                 anyString(),
                 anyString(), any(Pageable.class));
@@ -98,44 +101,58 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return paginated list of books based on page number and page size")
     void shouldReturnPaginatedListOfBooksBasedOnOffsetAndTake() throws Exception {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "testing","description", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "testing","description", 2.0, 100, "image_url");
 
         when(bookRepository.findBy(
                 any(Pageable.class))).thenReturn(Arrays.asList(book1,book2));
         mockMvc.perform(get("/books").param("pageNumber", "1").param("pageSize", "2"))
-                .andExpect(jsonPath("$[0].title").value("Refactoring"))
-                .andExpect(jsonPath("$[1].title").value("TDD"))
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.books.[0].title").value("Refactoring"))
+                .andExpect(jsonPath("$.books.[1].title").value("TDD"))
+                .andExpect(jsonPath("$.books.length()").value(2));
         verify(bookRepository).findBy(
                 any(Pageable.class));
     }
     @Test
     @DisplayName("should return price for the first book")
     void shouldReturnPriceForTheFirstBook() throws Exception {
-        Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-        Book b2 = new Book("book2", "author2","description", 3.0, 100);
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+        Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
                 anyString(),
                 anyString(), any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
         mockMvc.perform(get("/books").param("search", "author1"))
-                .andExpect(jsonPath("$[0].price").value(100))
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.books.[0].price").value(100))
+                .andExpect(jsonPath("$.books.length()").value(2));
         verify(bookRepository).findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
                 anyString(),
                 anyString(), any(Pageable.class));
     }
 
     @Test
+    @DisplayName("should return sorted list of books in descending order of Price field")
+    void shouldReturnSortedListOfBooksInDescendingOrderOfPriceField() throws Exception {
+        Book b1 = new Book("book1", "author1", "description", 2.0, 80, "image_url");
+        Book b2 = new Book("book2", "author2","description", 3.0, 350, "image_url");
+        Book b3 = new Book("book3", "author3", "description", 2.0, 590, "image_url");
+        Book b4 = new Book("book4", "author4","description", 3.0, 600, "image_url");
+
+        when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b4,b3,b2,b1));
+        mockMvc.perform(get("/books").param("sortBy", "price").param("order", "desc"))
+                .andExpect(jsonPath("$.books.[0].price").value(600))
+                .andExpect(jsonPath("$.books.[3].price").value(80));
+    }
+
+    @Test
     @DisplayName("should return book details based on id when it is not added to cart")
     void shouldReturnBookDetailsBasedOnIdWhenItIsNotAddedToCart() throws Exception {
-        BookDetails bookDetails = new BookDetails(1,"Ashutosh book", "Ashutosh",
-                "written by hariharan copied by ashutosh", 2.0, 10000,10,0);
-
-        when(bookDetailsRepository.findById(1)).thenReturn(bookDetails);
-        mockMvc.perform(get("/book/1"))
-                .andExpect(jsonPath("$.title").value("Ashutosh book"));
-        verify(bookDetailsRepository).findById(1);
+        BookDetails bookDetails = new BookDetails(2,"Ashutosh book", "Ashutosh",
+                "written by hariharan copied by ashutosh", 2.0, 10000,10,0, "image_url");
+        when(bookDetailsRepository.findById(2)).thenReturn(bookDetails);
+        mockMvc.perform(get("/book/2").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Ashutosh book"))
+                .andExpect(jsonPath("$.quantity").value("0"));
     }
 
     @Test
@@ -151,12 +168,12 @@ public class BookControllerTest {
     @DisplayName("should return book details when its added in cart")
     void shouldReturnBookDetailsWhenItsAddedInCart() throws Exception {
         BookDetails bookDetails = new BookDetails(1,"Ashutosh book", "Ashutosh",
-                "written by hariharan copied by ashutosh", 2.0, 10000,10,10);
+                "written by hariharan copied by ashutosh", 2.0, 10000,10,10, "image_url");
 
         when(bookDetailsRepository.findById(1)).thenReturn(bookDetails);
         mockMvc.perform(get("/book/1"))
                 .andExpect(jsonPath("$.title").value("Ashutosh book"));
-        verify(bookDetailsRepository).findById(1);
+        verify(bookDetailsRepository).findById(1L);
     }
 
     @Test

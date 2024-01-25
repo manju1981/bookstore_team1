@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import config from './ColumnConfig'
+import { useNavigate } from 'react-router-dom'
 
 const gridStyle = {
   height: 'calc(100vh - 60px)',
@@ -14,31 +15,41 @@ const DataTable = ({ searchString }) => {
   })
 
   const [filterModel, setFilterModel] = useState({ items: [] })
-  const [sortModel, setSortModel] = useState([])
-  const [rows, setRows] = useState({ data: [] })
+  const [sortModel, setSortModel] = useState()
+  const [data, setData] = useState({ books: [] })
+  const navigate = useNavigate()
 
   useEffect(() => {
+    const searchParam = `search=${searchString}`
+    const pageParam = `pageNumber=${paginationModel.page}&pageSize=${paginationModel.pageSize}`
+    const orderParam =
+      sortModel &&
+      sortModel.length &&
+      `sortBy=${sortModel[0].field}&order=${sortModel[0].sort}`
+    let queryParams = `${searchParam}&${pageParam}`
+
+    if (orderParam) queryParams += `&${orderParam}`
+
     const fetcher = () => {
-      fetch(
-        `http://localhost:8090/books?search=${searchString}&pageNumber=${paginationModel.page}&pageSize=${paginationModel.pageSize}`
-      )
+      fetch(`http://localhost:8090/books?${queryParams}`)
         .then((response) => response.json())
         .then((data) => {
-          setRows({ data: data, rowCount: 14 })
+          setData(data)
         })
     }
     fetcher()
-  }, [paginationModel, sortModel, filterModel, setRows, searchString])
+  }, [paginationModel, sortModel, filterModel, searchString])
 
-  const navigateToBookDetails = () => {
-    console.log('Row clicked--->')
+  const navigateToBookDetails = (params) => {
+    const bookId = params.row.id
+    navigate(`/book/${bookId}`)
   }
 
   return (
     <div style={gridStyle} data-testid="list-table">
       <DataGrid
-        onRowClick={navigateToBookDetails}
-        rows={rows.data}
+        onRowClick={(params) => navigateToBookDetails(params)}
+        rows={data.books}
         disableRowSelectionOnClick
         columns={config}
         initialState={{
@@ -46,7 +57,7 @@ const DataTable = ({ searchString }) => {
             paginationModel,
           },
         }}
-        rowCount={14}
+        rowCount={data.totalNoOfBooks}
         pagination
         // sortingMode="server"
         filterMode="server"
