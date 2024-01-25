@@ -15,7 +15,9 @@ public class BookDetails {
     private int stock ;
     private int quantity;
 
-    public BookDetails(long id, String title, String author, String description, double ratings, int price, int stock, int quantity) {
+    private String image_url;
+
+    public BookDetails(long id, String title, String author, String description, double ratings, int price, int stock, int quantity, String image_url) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -24,6 +26,7 @@ public class BookDetails {
         this.price = price;
         this.stock = stock;
         this.quantity = quantity;
+        this.image_url = image_url;
     }
 
     public BookDetails() {
@@ -62,5 +65,7 @@ public class BookDetails {
         return quantity;
     }
 
-
+    public String getImage_url() {
+        return image_url;
+    }
 }
