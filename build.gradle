@@ -44,6 +44,7 @@ tasks.named('test') {
          'junit.jupiter.execution.parallel.mode.classes.default': 'concurrent',
    ])
 	finalizedBy jacocoTestReport
+	exclude '**/automation'
 }
 
 node {
