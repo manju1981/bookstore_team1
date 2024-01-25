@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,12 +14,14 @@ import java.util.*;
 public class BookService {
     private final BookRepository bookRepository;
     private final BookDetailsRepository bookDetailsRepository;
+    private final OrderRepository orderRepository;
 
 
     @Autowired
-    public BookService(BookRepository bookRepository, BookDetailsRepository bookDetailsRepository) {
+    public BookService(BookRepository bookRepository, BookDetailsRepository bookDetailsRepository, OrderRepository orderRepository) {
         this.bookRepository = bookRepository;
         this.bookDetailsRepository = bookDetailsRepository;
+        this.orderRepository = orderRepository;
     }
     public BookListResponse fetchBooks(String search, int pageNumber, int pageSize, String sortBy, String order) {
 
@@ -62,4 +65,11 @@ public class BookService {
         return bookDetailsRepository.findById(id);
     }
 
+    public Long checkout(long countryId) {
+        Order latestOrder = orderRepository.findFirstOrderByIdDesc();
+        long latestOrderId = (latestOrder != null ? latestOrder.getId() : 0);
+        Order order = new Order();
+        order.setId(++latestOrderId);
+        return 1L;
+    }
 }

@@ -1,5 +1,6 @@
 package com.idfc.bootcamp.bookstore;
 
+import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +8,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,6 +35,9 @@ public class BookAPiIntegrationTest {
     int randomServerPort;
 
     private String baseUrl;
+
+    @Autowired
+    private InventoryRepository inventoryRepository;
 
     @BeforeEach
     void setUp() {
@@ -256,6 +263,25 @@ public class BookAPiIntegrationTest {
         assertEquals(80, books.get(0).getPrice());
         assertEquals(600, books.get(3).getPrice());
     }
+
+    @Test
+    @DisplayName("should return true and reduce the quantity from books when order is placed")
+    void shouldReturnTrueAndReduceTheQuantityFromBooksWhenOrderIsPlaced() throws MalformedURLException, URISyntaxException {
+        Book book1 = new Book("book1", "author1", "description", 2.0, 80, "image_url");
+        Book book = bookRepository.save(book1);
+        Inventory inventory = new Inventory(book.getId(),10);
+        inventoryRepository.save(inventory);
+
+        Gson gson = new Gson();
+        String countryJson = gson.toJson(2L);
+        RequestEntity<String> requestEntity = RequestEntity.post(new URL(baseUrl+"checkout")
+                .toURI()).contentType(MediaType.APPLICATION_JSON).body(countryJson);
+        HttpStatusCode actualStatus = restTemplate.exchange(requestEntity, new ParameterizedTypeReference<>(){}).getStatusCode();
+
+        assertEquals(8, inventory.getStock());
+        assertEquals(HttpStatus.OK, actualStatus);
+    }
+
 
     @AfterEach
     void tearDown() {

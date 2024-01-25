@@ -1,0 +1,1 @@
+ALTER TABLE inventory ALTER COLUMN book_id TYPE bigint;

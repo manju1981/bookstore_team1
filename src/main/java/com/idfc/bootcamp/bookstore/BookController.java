@@ -42,4 +42,10 @@ public class BookController {
         return new ResponseEntity<>(bookDetails, HttpStatus.OK);
     }
 
+    @CrossOrigin()
+    @PostMapping("checkout/{countryId}")
+    public ResponseEntity<Long> checkout(@RequestBody long countryId) {
+        return new ResponseEntity<>(bookService.checkout(countryId), HttpStatus.OK);
+    }
+
 }
