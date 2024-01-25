@@ -80,7 +80,7 @@ const BookCart = () => {
   }
 
   return (
-    <Box>
+    <Box data-testid="cart-item">
       <Header title="Book Details" showSearchBar={false} />
       <CartItems books={books} />
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
