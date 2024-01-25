@@ -27,6 +27,10 @@ public class CountryControllerTest {
     BookRepository bookRepository;
     @MockBean
     BookDetailsRepository bookDetailsRepository;
+    @MockBean
+    CartRepository cartRepository;
+    @MockBean
+    CartItemsRepository cartItemsRepository;
 
     @Test
     @DisplayName("should add list of countries")

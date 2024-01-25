@@ -1,8 +1,5 @@
 package com.idfc.bootcamp.bookstore;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +33,8 @@ public class BookAPiIntegrationTest {
 
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
     @LocalServerPort
     int randomServerPort;
@@ -230,14 +229,14 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return list of carts item")
     void shouldReturnListOfCartsItem() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "localhost:8080/test");
-        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "localhost:8080/test");
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "");
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "image_url");
         bookRepository.saveAll(Arrays.asList(book1, book2));
-        Cart cart1 = new Cart(1,10);
-        Cart cart2 = new Cart(1,10);
+        Cart cart1 = new Cart(book1.getId().intValue(),10);
+        Cart cart2 = new Cart(book2.getId().intValue(),10);
         cartRepository.saveAll(Arrays.asList(cart1, cart2));
         List<Book> books = restTemplate.exchange(baseUrl+"/cart", HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<Book>>(){}, "test",0,2).getBody() ;
+                new ParameterizedTypeReference<List<Book>>(){}).getBody() ;
         assertEquals("Refactoring", books.get(0).getTitle());
         assertEquals(100, books.get(1).getPrice());
 
@@ -246,8 +245,8 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return empty list with status code 200 when cart is empty")
     void shouldReturnEmptyListWithStatusCode200WhenCartIsEmpty() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "localhost:8080/test");
-        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "localhost:8080/test");
+        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 500, "image_url");
+        Book book2 = new Book("TDD", "Author2","description", 2.0, 600, "image_url");
         bookRepository.saveAll(Arrays.asList(book1, book2));
         ResponseEntity<List<Book>> books = restTemplate.exchange(baseUrl+"/cart", HttpMethod.GET, null,
                 new ParameterizedTypeReference<>(){}, "test",0,2) ;
