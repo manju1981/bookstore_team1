@@ -157,7 +157,7 @@ public class BookControllerTest {
     @DisplayName("should return book details when its added in cart")
     void shouldReturnBookDetailsWhenItsAddedInCart() throws Exception {
         BookDetails bookDetails = new BookDetails(1,"Ashutosh book", "Ashutosh",
-                "written by hariharan copied by ashutosh", 2.0, 10000,10,10);
+                "written by hariharan copied by ashutosh", 2.0, 10000,10,10, "image_url");
 
         when(bookDetailsRepository.findById(1)).thenReturn(bookDetails);
         mockMvc.perform(get("/book/1"))
