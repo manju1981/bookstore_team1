@@ -44,10 +44,6 @@ public class BookControllerTest {
     @MockBean
     CartItemsRepository cartItemsRepository;
 
-
-    Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-    Book b2 = new Book("book2", "author2","description", 3.0, 100);
-
     @Test
     @org.junit.jupiter.api.DisplayName("should return success http status")
     public void shouldReturnSuccessHttpStatus() throws Exception {

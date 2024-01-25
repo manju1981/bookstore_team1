@@ -230,8 +230,8 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return list of carts item")
     void shouldReturnListOfCartsItem() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "asda","description", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "localhost:8080/test");
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "localhost:8080/test");
         bookRepository.saveAll(Arrays.asList(book1, book2));
         Cart cart1 = new Cart(1,10);
         Cart cart2 = new Cart(1,10);
@@ -246,8 +246,8 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return empty list with status code 200 when cart is empty")
     void shouldReturnEmptyListWithStatusCode200WhenCartIsEmpty() {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "asda","description", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "localhost:8080/test");
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "localhost:8080/test");
         bookRepository.saveAll(Arrays.asList(book1, book2));
         ResponseEntity<List<Book>> books = restTemplate.exchange(baseUrl+"/cart", HttpMethod.GET, null,
                 new ParameterizedTypeReference<>(){}, "test",0,2) ;
@@ -259,7 +259,7 @@ public class BookAPiIntegrationTest {
     @Test
     @DisplayName("should return success response for new insert into cart") // need to fix test case
     void shouldReturnSuccessResponseForNewInsertIntoCart() throws  MalformedURLException, URISyntaxException {
-        Book book1 = new Book("Ashutosh", "Author1","test", 2.0, 100);
+        Book book1 = new Book("Ashutosh", "Author1","test", 2.0, 100, "localhost:8080/test");
         Book book =  bookRepository.save(book1);
 
         Cart cart = new Cart(book.getId().intValue(),10);
