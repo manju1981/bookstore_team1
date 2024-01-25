@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class BookController {
@@ -41,5 +43,19 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(bookDetails, HttpStatus.OK);
     }
+    @CrossOrigin()
+    @GetMapping("/cart")
+    public ResponseEntity<List<CartItems>> getCartDetails(){
+        List<CartItems> cartDetails = bookService.getCartDetails();
+        if(cartDetails==null)
+            return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(cartDetails, HttpStatus.OK);
+    }
+    @CrossOrigin()
+    @PostMapping("/cart")
+    public ResponseEntity<String> getCartDetails(@RequestBody Cart cart) {
+        return bookService.saveCartItems(cart);
+    }
+
 
 }

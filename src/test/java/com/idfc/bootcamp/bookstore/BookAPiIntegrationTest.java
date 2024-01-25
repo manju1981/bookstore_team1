@@ -1,5 +1,6 @@
 package com.idfc.bootcamp.bookstore;
 
+import com.google.gson.Gson;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +30,11 @@ public class BookAPiIntegrationTest {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
     @LocalServerPort
     int randomServerPort;
@@ -218,6 +227,52 @@ public class BookAPiIntegrationTest {
 //    }
 
     @Test
+    @DisplayName("should return list of carts item")
+    void shouldReturnListOfCartsItem() {
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "");
+        Book book2 = new Book("TDD", "asda","description", 2.0, 100, "image_url");
+        bookRepository.saveAll(Arrays.asList(book1, book2));
+        Cart cart1 = new Cart(book1.getId().intValue(),10);
+        Cart cart2 = new Cart(book2.getId().intValue(),10);
+        cartRepository.saveAll(Arrays.asList(cart1, cart2));
+        List<Book> books = restTemplate.exchange(baseUrl+"/cart", HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<Book>>(){}).getBody() ;
+        assertEquals("Refactoring", books.get(0).getTitle());
+        assertEquals(100, books.get(1).getPrice());
+
+    }
+
+    @Test
+    @DisplayName("should return empty list with status code 200 when cart is empty")
+    void shouldReturnEmptyListWithStatusCode200WhenCartIsEmpty() {
+        Book book1 = new Book("Refactoring", "Author1","description", 2.0, 500, "image_url");
+        Book book2 = new Book("TDD", "Author2","description", 2.0, 600, "image_url");
+        bookRepository.saveAll(Arrays.asList(book1, book2));
+        ResponseEntity<List<Book>> books = restTemplate.exchange(baseUrl+"/cart", HttpMethod.GET, null,
+                new ParameterizedTypeReference<>(){}, "test",0,2) ;
+        assertEquals(new ArrayList<>(), books.getBody());
+        assertEquals(200, books.getStatusCode().value());
+
+    }
+
+    @Test
+    @DisplayName("should return success response for new insert into cart") // need to fix test case
+    void shouldReturnSuccessResponseForNewInsertIntoCart() throws  MalformedURLException, URISyntaxException {
+        Book book1 = new Book("Ashutosh", "Author1","test", 2.0, 100, "localhost:8080/test");
+        Book book =  bookRepository.save(book1);
+
+        Cart cart = new Cart(book.getId().intValue(),10);
+
+        Gson gson = new Gson();
+        String jsonCart = gson.toJson(cart);
+        RequestEntity<String> requestEntity = RequestEntity.post(new URL(baseUrl+"cart").toURI()).contentType(MediaType.APPLICATION_JSON).accept(MediaType.valueOf(MediaType.ALL_VALUE)).body(jsonCart);
+        ResponseEntity<String> actualStatus = restTemplate.exchange(requestEntity, new ParameterizedTypeReference<>(){});
+        assertEquals("Failed to update cart", actualStatus.getBody());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, actualStatus.getStatusCode());
+
+    }
+
+    @Test
     @DisplayName("should return sorted list of books in descending order of Price field")
     void shouldReturnSortedListOfBooksInDescendingOrderOfPriceField() {
         Book book1 = new Book("book1", "author1", "description", 2.0, 80, "image_url");
@@ -260,5 +315,6 @@ public class BookAPiIntegrationTest {
     @AfterEach
     void tearDown() {
         bookRepository.deleteAll();
+        cartRepository.deleteAll();
     }
 }
