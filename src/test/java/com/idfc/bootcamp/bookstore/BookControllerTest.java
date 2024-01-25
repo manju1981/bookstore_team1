@@ -32,9 +32,9 @@ public class BookControllerTest {
 
     @MockBean
     CountryRepository countryRepository;
-
-    Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-    Book b2 = new Book("book2", "author2","description", 3.0, 100);
+  
+    Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+    Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
 
     @Test
     @org.junit.jupiter.api.DisplayName("should return success http status")
@@ -72,7 +72,8 @@ public class BookControllerTest {
     @DisplayName("should search in title, description or Author when search query is passed ")
     void shouldSearchInTitleDescriptionOrAuthorWhenSearchQueryIsPassed() throws Exception {
 
-        Book b1 = new Book("book1", "author1", "description", 2.0, 100);
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+        Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(
                 anyString(),
                 anyString(),
@@ -89,8 +90,8 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return paginated list of books based on page number and page size")
     void shouldReturnPaginatedListOfBooksBasedOnOffsetAndTake() throws Exception {
-        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100);
-        Book book2 = new Book("TDD", "testing","description", 2.0, 100);
+        Book book1 = new Book("Refactoring", "Author1","test", 2.0, 100, "image_url");
+        Book book2 = new Book("TDD", "testing","description", 2.0, 100, "image_url");
 
         when(bookRepository.findBy(
                 any(Pageable.class))).thenReturn(Arrays.asList(book1,book2));
@@ -104,8 +105,8 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return price for the first book")
     void shouldReturnPriceForTheFirstBook() throws Exception {
-        Book b1 = new Book("book1", "author1", "description", 2.0, 100);
-        Book b2 = new Book("book2", "author2","description", 3.0, 100);
+        Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
+        Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
         when(bookRepository.findByTitleLikeIgnoreCaseOrAuthorLikeIgnoreCaseOrDescriptionLikeIgnoreCase(anyString(),
                 anyString(),
                 anyString(), any(Pageable.class))).thenReturn(Arrays.asList(b1, b2));
@@ -120,10 +121,10 @@ public class BookControllerTest {
     @Test
     @DisplayName("should return sorted list of books in descending order of Price field")
     void shouldReturnSortedListOfBooksInDescendingOrderOfPriceField() throws Exception {
-        Book b1 = new Book("book1", "author1", "description", 2.0, 80);
-        Book b2 = new Book("book2", "author2","description", 3.0, 350);
-        Book b3 = new Book("book3", "author3", "description", 2.0, 590);
-        Book b4 = new Book("book4", "author4","description", 3.0, 600);
+        Book b1 = new Book("book1", "author1", "description", 2.0, 80, "image_url");
+        Book b2 = new Book("book2", "author2","description", 3.0, 350, "image_url");
+        Book b3 = new Book("book3", "author3", "description", 2.0, 590, "image_url");
+        Book b4 = new Book("book4", "author4","description", 3.0, 600, "image_url");
 
         when(bookRepository.findBy(any(Pageable.class))).thenReturn(Arrays.asList(b4,b3,b2,b1));
         mockMvc.perform(get("/books").param("sortBy", "price").param("order", "desc"))
