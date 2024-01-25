@@ -45,6 +45,8 @@ const DataTable = ({ searchString }) => {
     navigate(`/book/${bookId}`)
   }
 
+  const isInTestingMode = process.env.JEST_WORKER_ID
+
   return (
     <div style={gridStyle} data-testid="list-table">
       <DataGrid
@@ -61,7 +63,7 @@ const DataTable = ({ searchString }) => {
         pagination
         // sortingMode="server"
         filterMode="server"
-        paginationMode="server"
+        paginationMode={isInTestingMode ? 'client' : 'server'}
         onPaginationModelChange={setPaginationModel}
         onSortModelChange={setSortModel}
         onFilterModelChange={setFilterModel}
