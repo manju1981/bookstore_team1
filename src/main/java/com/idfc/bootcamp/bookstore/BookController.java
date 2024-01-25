@@ -2,6 +2,7 @@ package com.idfc.bootcamp.bookstore;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,19 @@ public class BookController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(bookDetails, HttpStatus.OK);
     }
+    @CrossOrigin()
+    @GetMapping("/cart")
+    public ResponseEntity<List<CartItems>> getCartDetails(){
+        List<CartItems> cartDetails = bookService.getCartDetails();
+        if(cartDetails==null)
+            return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(cartDetails, HttpStatus.OK);
+    }
+    @CrossOrigin()
+    @PostMapping("/cart")
+    public ResponseEntity<String> getCartDetails(@RequestBody Cart cart) {
+        return bookService.saveCartItems(cart);
+    }
+
 
 }
