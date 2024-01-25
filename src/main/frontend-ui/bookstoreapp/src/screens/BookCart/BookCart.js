@@ -1,37 +1,11 @@
 import * as React from 'react'
-import { Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { Grid } from '@mui/material'
 import Button from '@mui/material/Button'
 import Header from '../../components/Header'
 import BookImage from '../../assets/book-image.png'
 
 const BookCart = () => {
-  const height = 200
-  const boxStyle = {
-    display: 'flex',
-    height: `${height}px`,
-    width: '100%', // Set width to 90%
-    margin: '5px auto 10px auto', // Center the box horizontally
-    boxShadow: '0 0px 3px rgba(0, 0, 0, 0.2)', // Add shadow effect
-    // borderRadius: '8px', // Add border-radius for a rounded corner effect
-    overflow: 'hidden', // Hide overflow content if any
-    // backgroundColor: 'red',
-  }
-
-  const imageStyle = {
-    padding: '20px',
-    width: '120px',
-    objectFit: 'cover',
-  }
-
-  const checkoutBoxStyle = {
-    display: 'flex',
-    width: '100%', // Set width to 90%
-    margin: '10px auto 10px auto', // Center the box horizontally
-    // boxShadow: '0 0px 3px rgba(0, 0, 0, 0.2)', // Add shadow effect
-    // overflow: 'hidden', // Hide overflow content if any
-  }
-
   const books = [
     {
       id: 8,
@@ -53,68 +27,71 @@ const BookCart = () => {
     },
   ]
 
-  function CartItem({ key, title, author, description, price }) {
+  function CartItems({ books }) {
     return (
-      <div style={boxStyle} key={key}>
-        <img src={BookImage} alt="Custom" style={imageStyle} />
-        <Grid item xs={4} textAlign="left" paddingLeft={8}>
-          <Typography variant="h5" data-testid="book-title" mt={3}>
-            {title}
-          </Typography>
-          <Typography variant="h10" data-testid="book-author" mt={1}>
-            {author}
-          </Typography>
-          <Typography
-            variant="body2"
-            data-testid="book-title"
-            mt={3}
-            sx={{ width: '80%' }}
+      <>
+        {books.map((book) => (
+          <Box
+            sx={{
+              display: 'flex',
+              height: '200px',
+              width: '100%',
+              mt: 5,
+            }}
+            key={book.id}
           >
-            {description}
-          </Typography>
-        </Grid>
-        <Typography
-          variant="subtitle1"
-          mt={4}
-          mr={8}
-          sx={{ marginLeft: 'auto', fontWeight: 'bold', width: '200px' }}
-        >
-          Price: ₹{price}
-        </Typography>
-      </div>
+            <Box
+              component="img"
+              sx={{ width: 120, ml: 2 }}
+              alt={book.title}
+              src={BookImage}
+            />
+            <Grid item xs={4} textAlign="left" paddingLeft={8}>
+              <Typography variant="h5" data-testid="book-title" mt={3}>
+                {book.title}
+              </Typography>
+              <Typography variant="h10" data-testid="book-author" mt={1}>
+                {book.author}
+              </Typography>
+              <Typography
+                variant="body2"
+                data-testid="book-title"
+                sx={{ width: '80%', mt: 3 }}
+              >
+                {book.description}
+              </Typography>
+            </Grid>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                marginLeft: 'auto',
+                fontWeight: 'bold',
+                width: '200px',
+                mt: 4,
+                mr: 8,
+              }}
+            >
+              Price: ₹{book.price}
+            </Typography>
+          </Box>
+        ))}
+      </>
     )
   }
 
   return (
-    <>
+    <Box>
       <Header title="Book Details" showSearchBar={false} />
-      {books.map((book) => (
-        <CartItem
-          key={book.id}
-          author={book.author}
-          title={book.title}
-          description={book.description}
-          price={book.price}
-        />
-      ))}
-      <div style={checkoutBoxStyle}>
-        <Grid item xs={4} textAlign="left" paddingLeft={8}></Grid>
-        <div style={{ marginLeft: 'auto', fontWeight: 'bold', width: '250px' }}>
-          {/* <Typography
-            variant="subtitle1"
-            mt={4}
-            mr={8}
-            sx={{ marginLeft: 'auto', width: '250px' }}
-          >
-            Total: ₹{'200'}
-          </Typography> */}
-          <Button variant="contained" sx={{ m: 2, fontWeight: 'bold', width: '200px' }}>
-            Total: ₹200
-          </Button>
-        </div>
-      </div>
-    </>
+      <CartItems books={books} />
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          variant="contained"
+          sx={{ ml: 'auto', m: 2, fontWeight: 'bold', width: '200px' }}
+        >
+          Total: ₹200
+        </Button>
+      </Box>
+    </Box>
   )
 }
-
 export default BookCart
