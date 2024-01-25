@@ -28,7 +28,7 @@ test('calls onSearch function when the user types into the search input', () => 
   const mockOnSearch = jest.fn()
   const { getByPlaceholderText } = render(
     <MemoryRouter>
-      <SearchAppBar title="Test Title" onSearch={mockOnSearch} />
+      <SearchAppBar title="Test Title" onSearch={mockOnSearch} showSearchBar={true} />
     </MemoryRouter>
   )
   const searchInput = getByPlaceholderText('Search…')
@@ -45,7 +45,7 @@ test('debounces the search input', async () => {
   const mockOnSearch = jest.fn()
   const { getByPlaceholderText } = render(
     <MemoryRouter>
-      <SearchAppBar title="Test Title" onSearch={mockOnSearch} />
+      <SearchAppBar title="Test Title" onSearch={mockOnSearch} showSearchBar={true} />
     </MemoryRouter>
   )
   const searchInput = getByPlaceholderText('Search…')
