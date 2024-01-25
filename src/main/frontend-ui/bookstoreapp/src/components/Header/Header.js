@@ -13,7 +13,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 
 import { Search, StyledInputBase, SearchIconWrapper } from './Header.style'
 
-export default function SearchAppBar({ title, onSearch }) {
+export default function SearchAppBar({ title, onSearch, showSearchBar = false }) {
   const debouncedSearch = useMemo(
     () =>
       debounce((value) => {
@@ -61,7 +61,7 @@ export default function SearchAppBar({ title, onSearch }) {
           >
             {title}
           </Typography>
-          {isBookDetailsPage ? null : (
+          {showSearchBar && (
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -73,12 +73,7 @@ export default function SearchAppBar({ title, onSearch }) {
               />
             </Search>
           )}
-          {isBookDetailsPage ? null : (
-            <ShoppingCartIcon
-              sx={{ cursor: 'pointer', ml: 2 }}
-              onClick={navigateToCart}
-            />
-          )}
+          <ShoppingCartIcon sx={{ cursor: 'pointer', ml: 2 }} onClick={navigateToCart} />
         </Toolbar>
       </AppBar>
     </Box>
