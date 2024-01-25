@@ -136,7 +136,7 @@ public class BookControllerTest {
     @DisplayName("should return book details based on id when it is not added to cart")
     void shouldReturnBookDetailsBasedOnIdWhenItIsNotAddedToCart() throws Exception {
         BookDetails bookDetails = new BookDetails(2,"Ashutosh book", "Ashutosh",
-                "written by hariharan copied by ashutosh", 2.0, 10000,10,0);
+                "written by hariharan copied by ashutosh", 2.0, 10000,10,0, "image_url");
         when(bookDetailsRepository.findById(2)).thenReturn(bookDetails);
         mockMvc.perform(get("/book/2").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
