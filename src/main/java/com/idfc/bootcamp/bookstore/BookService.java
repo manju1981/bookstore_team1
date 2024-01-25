@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,15 +13,12 @@ import java.util.*;
 public class BookService {
     private final BookRepository bookRepository;
     private final BookDetailsRepository bookDetailsRepository;
-    private final CartItemsRepository cartItemsRepository;
-    private CartRepository cartRepository;
+
 
     @Autowired
-    public BookService(BookRepository bookRepository, BookDetailsRepository bookDetailsRepository, CartItemsRepository cartItemsRepository, CartRepository cartRepository) {
+    public BookService(BookRepository bookRepository, BookDetailsRepository bookDetailsRepository) {
         this.bookRepository = bookRepository;
         this.bookDetailsRepository = bookDetailsRepository;
-        this.cartItemsRepository = cartItemsRepository;
-        this.cartRepository = cartRepository;
     }
     public BookListResponse fetchBooks(String search, int pageNumber, int pageSize, String sortBy, String order) {
 
@@ -67,16 +62,4 @@ public class BookService {
         return bookDetailsRepository.findById(id);
     }
 
-    public List<CartItems> getCartDetails() {
-        return cartItemsRepository.findAll();
-    }
-
-    public ResponseEntity<String> saveCartItems(Cart cart) {
-        try {
-            cartRepository.saveCartItem(cart.getBook_id(), cart.getQuantity());
-            return new ResponseEntity<>("Cart updated successfully", HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>("Failed to update cart", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

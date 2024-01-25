@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +17,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,10 +36,6 @@ public class BookControllerTest {
 
     Book b1 = new Book("book1", "author1", "description", 2.0, 100, "image_url");
     Book b2 = new Book("book2", "author2","description", 3.0, 100, "image_url");
-    @MockBean
-    CartRepository cartRepository;
-    @MockBean
-    CartItemsRepository cartItemsRepository;
 
     @Test
     @org.junit.jupiter.api.DisplayName("should return success http status")
@@ -170,30 +163,5 @@ public class BookControllerTest {
         mockMvc.perform(get("/book/1"))
                 .andExpect(jsonPath("$.title").value("Ashutosh book"));
         verify(bookDetailsRepository).findById(1L);
-    }
-
-    @Test
-    @DisplayName("should return the cart items")
-    void shouldReturnTheCartItems() throws Exception {
-        CartItems items = new CartItems(1, "book1", "author1", "description", 2.0, 100, 10);
-        when(cartItemsRepository.findAll()).thenReturn(Arrays.asList(items));
-        mockMvc.perform(get("/cart"))
-                .andExpect(jsonPath("$[0].title").value("book1"));
-    }
-
-    @Test
-    @DisplayName("should return empty response with 200 http status when cart is empty")
-    void shouldReturnEmptyResponseWith200HttpStatusWhenCartIsEmpty() throws Exception {
-
-        when(cartItemsRepository.findAll()).thenReturn(new ArrayList<>());
-        mockMvc.perform(get("/cart"))
-                .andExpect(jsonPath("$.length()").value(0))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("should add the item to cart successfully")
-    void shouldAddTheItemToCartSuccessfully() throws Exception {
-       Cart cart = new Cart(1,10);
     }
 }

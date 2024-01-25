@@ -7,15 +7,15 @@ import jakarta.persistence.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    private Long id;
 
-    protected String title;
+    private String title;
 
-    protected String author;
-    protected  String description;
+    private String author;
+    private  String description;
 
-    protected double ratings;
-    protected int price;
+    private double ratings;
+    private int price;
 
     private String image_url;
 
@@ -27,15 +27,6 @@ public class Book {
         this.price = price;
         this.image_url = image_url;
     }
-    public Book(long id, String title, String author, String description, double ratings, int price) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.ratings = ratings;
-        this.price = price;
-    }
-
 
     public Book() {
     }
